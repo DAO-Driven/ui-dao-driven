@@ -1,0 +1,151 @@
+{
+  "Header": {
+    "title": "WEB3 TRANSITIONS CATALYZED BY BONCODI",
+    "paragraph": "we're a forward-thinking full-stack development firm focused on architecting innovative cyber solutions. Steeped in Web3, blockchain, and decentralization, we're reshaping digital landscapes, enhancing productivity, and boosting web3 comfort"
+  },
+  "About": {
+    "paragraph": "We are young full-stack development company specializing in the algorithms for the automation of various processes in various industries.Our clients can be, for example, dental laboratories who want to develop a multi-platform solution for visualising laboratory’s products, as well as for accounting and organising all laboratory activities.Or stock-exchange and cryptocurrency-exchange traders who, for example want to automate their work on analysing of the exchange data, or create a trading-bot that will exactly follow their strategy, processing thousands of trades at the same time.Or an agricultural company wants to automate its work on the farm caring, and develop equipment that will monitor physical sensors, such as temperature and humidity, and depending on their indicators, control ventilation heating and air-conditioning equipment, as well as control irrigation equipment. Well, as you can see from the examples above, there is a useful script for every kind of activity, that's why we will be happy to see everyone inspired by an idea",
+    "Why": [
+      "The developing of a new features is our passion",
+      "We prefer to use the latest technologies in our developments to make them the most effective"
+    ],
+    "Why2": [
+      "We provide full spectrum of development services, from idea designing - till the deployment of the software at the server and supporting of it "
+    ]
+  },
+  "Services": [
+    {
+      "icon": "fa fa-cloud-download",
+      "name": "Deployment",
+      "text": "Once your Web3 project is primed for launch, it needs to be deployed in a production environment and hosted on a server. Our deployment services encompass more than just the transition of your project onto the server; we provide comprehensive technical support and aid in the orchestration of the decentralized network. In the dynamic world of Web3 and blockchain, we're prepared to scale your project's capacity or distribute it across various nodes as demand grows. This could be in response to an influx of users or due to an accumulation of project data over time. With BONCODI, you get a partner ready to facilitate seamless transitions in the Web3 environment, effectively managing the increasing complexity of the decentralized world."
+    },
+    {
+      "icon": "fa fa-language",
+      "name": "Development",
+      "text": "This integral aspect of our work involves transforming ideas into concrete concepts and algorithms within the Web3 paradigm. Here, we meticulously map out and design your vision before breathing life into it through code. Our thorough process includes rigorous performance and efficiency testing of the devised algorithms in the decentralized and blockchain context. Once these tests are successfully completed, your concept evolves into a fully functional software, ready for the decentralized world"
+    },
+    {
+      "icon": "fa fa-pie-chart",
+      "name": "Refactoring",
+      "text": "In the dynamic world of Web3 and blockchain technologies, project refactoring becomes a critical service. Whether due to algorithm adjustments, methodological changes, or shifts in the application's core functionality, your software will occasionally require updating. It could be driven by the evolution of technologies, redesigning of software features, or performance optimization needs. If the software's performance starts to lag, a thorough analysis and fix are imperative to maintain high-quality services. Additionally, when your deployed software requires an upgrade or a new feature, we are there to facilitate the process"
+    }
+  ],
+  "Testimonials": [
+    {
+      "img": "img/testimonials/01.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/02.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    },
+    {
+      "img": "img/testimonials/03.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/04.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    },
+    {
+      "img": "img/testimonials/05.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "John Doe"
+    },
+    {
+      "img": "img/testimonials/06.jpg",
+      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "name": "Johnathan Doe"
+    }
+  ],
+  "Team": [
+    {
+      "img": "img/team/01.jpg",
+      "name": "Alexandr Maslov",
+      "job": "Developer"
+    },
+    {
+      "img": "img/team/Aleksei_Monakhov.jpg",
+      "name": "Aleksei Monakhov",
+      "job": "Developer"
+    },
+    {
+      "img": "img/team/02.jpg",
+      "name": "Jevgeni Semjonov",
+      "job": "Junior Developer"
+    },
+    {
+      "img": "img/team/03.jpg",
+      "name": "Anastasia Belyanskaya",
+      "job": "Project Manager"
+    },
+    {
+      "img": "img/team/04.jpg",
+      "name": "Egor Privolnev",
+      "job": "Testing Department"
+    }
+  ],
+  "Contact": {
+    "address": "08001 Guifre 16, 4.20, Barcelona",
+    "phone": "+34 642 927 687",
+    "email": "ask@bon-codi.com",
+    "github": "GitHub"
+
+  },
+  "Features": [
+    {
+      "icon": "fa fa-comments-o",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-bullhorn",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-group",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    },
+    {
+      "icon": "fa fa-magic",
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+    }
+  ],
+  "Portfolio": [
+    {
+      "title": "New Projects",
+      "text": "<strong>Description:</strong><br /><br /> A comprehensive stacking and liquidity management dashboard for the Archway project, a blockchain ecosystem built on CosmWasm. This innovative dashboard empowers users to participate in the Archway network by staking coins and providing liquidity through a variety of smart contracts. <br /><br /><strong>Key Features:</strong><br /><br /> - <strong>Stacking and Liquidity Management:</strong> The platform provides users with a user-friendly interface to stake their coins and provide liquidity using different smart contracts within the Archway network. Users have the flexibility to choose which contract and coin they want to stake, supporting the Archway network while promoting their chosen contract.<br /><br /> - <strong>CosmWasm Wallet Integration:</strong> To streamline the user experience, I integrated a CosmWasm wallet directly into the user's web browser. This enables seamless and secure transactions, making it easy for users to manage their assets and interact with the Archway network. <br /><br /> - <strong>Network Statistics:</strong> The dashboard includes a robust set of tools for users to access network statistics. Users can track the performance and activity of different contracts and wallets within the Archway ecosystem. This data empowers users with valuable insights to make informed decisions",
+      "photos": [
+        "archway-app.jpeg",
+        "archway-app.jpeg",
+        "ether_logo.jpeg"
+      ]
+    },
+    {
+      "title": "Active Projects",
+      "text": "<strong>Description:</strong><br /><br /> An advanced smart contract designed for Ethereum EVM networks. This smart contract employs 'Submarine Sends' to protect against front-running attacks, enhancing transaction privacy and security.<br /><br /><strong>Key Features:</strong><br /><br /> <strong>Front Running Protection:</strong> Submarine Sends prevent front-running attacks, a common concern in Ethereum and EVM-based networks <br /><br /> <strong>Stealthy Blockchain Account:</strong> It creates a stealthy blockchain account for secure fund transfers.<br /><br /> <strong>Delayed Transaction Reveal:</strong> The contract executes transactions with zero value and unfamiliar data, making it immune to front-running.<br /><br /> <strong>Gas Fee Reduction:</strong> The contract includes a self-destruct method, reducing transaction gas fees. <br /><br /> <strong>DEX Swaps:</strong> Capable of DEX swaps at the current market price, eliminating slippage concerns. <br /><br /> This project showcases the expertise in smart contract development and blockchain security, making it a valuable addition to the portfolio.",
+      "photos": [
+        "archway-app.jpeg",
+        "archway-app.jpeg",
+        "ether_logo.jpeg"
+      ]
+    },
+    {
+      "title": "Showcase Projects",
+      "text": "<strong>Description:</strong><br /><br />A comprehensive software for automating retro drops hunt activities and managing operations across various Layer 2 (L2) networks, including Arbitrum NOVA, StarkNet, ZK-Sync, ZK-Sync ERA, and APTOS.<br /><br /> <strong>Key Features:</strong> <br /><br /> <strong>Diverse L2 Network Support:</strong> The software facilitates swaps, liquidity provision, NFT minting, and other activities on multiple L2 networks, enhancing user flexibility and engagement.<br /><br /> <strong>Layer ZERO Integration:</strong> Beyond L2, the software enables seamless swaps between different L2 chains, extending its functionality to Layer ZERO projects. <br /><br /> <strong>Dual Performance Modes:</strong> The software operates in two distinct modes. The first handles straightforward activities using existing account balances, while the second, accounts boosting, efficiently manages funds by collecting them at OKX exchange and distributing them to accounts as needed. Once activities are completed, funds are returned to OKX for the next account in line. <br /><br /> <strong>Flexible Configuration:</strong> Users have the power to fine-tune their experience, customizing settings for the number of accounts managed, the use of account balances, and the adjustment of hunting strategies through contract additions or deletions. This flexibility allows for diversified activities and unique account configurations. <br /><br /> <strong>Privacy Protection:</strong> To ensure account anonymity, the software employs advanced privacy technologies similar to those found in AdsPower software, safeguarding accounts against de-anonymization threats. <br /><br /> This project underscores the proficiency in software development for blockchain automation, L2 network management, and privacy protection, establishing it as a valuable asset in the portfolio",
+      "photos": [
+        "archway-app.jpeg",
+        "archway-app.jpeg",
+        "ether_logo.jpeg"
+      ]
+    }
+  ]
+
+}
