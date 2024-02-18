@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import JsonData from '../data/data.json';
 import { NewProjectTable } from "./newProject";
 import { ActiveProjects } from "./activeProjects";
 import { FinishedProjects } from "./FinishedProjects";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 
 export const Portfolio_ = () => {
@@ -29,30 +30,9 @@ export const Portfolio_ = () => {
     }
   };
 
-  const h2Style = { 
-    fontSize: '32px',
-    color: "#8155BA",
-    backgroundColor: '#FFFFFF',
-    padding: '10px',
-    marginBottom: '0px',
-    borderTopLeftRadius: "25px",
-    borderTopRightRadius: "25px",
-  };
-
-  const h3Style = { 
-    fontSize: '21px',
-    fontFamily: "FaunaRegular",
-  };
-  const buttonStyle = (index) => ({
-    backgroundColor: index === activeIndex ? "#8155BA" : '#FFFFFF',
-    color: index === activeIndex ? "#ffff" : "#8155BA",
-    border: '1px solid black',
-    borderRadius: "15px",
-    cursor: 'pointer',
-    minWidth: '350px'
-  });
-
-  const setIndex = (index) => {
+  const handleBreadcrumbClick = (index) => {
+    console.info(`You clicked breadcrumb at index ${index}.`);
+    // Logic to handle breadcrumb click
     setActiveIndex(index);
   };
 
@@ -75,26 +55,37 @@ export const Portfolio_ = () => {
       <div className='container'>
         <div className='section-title'>
 
-          <h2 style={h2Style}>BuidlBox's Hackathon: Allo V2 on Arbitrum</h2>
-          <h2 style={h3InfoStyle}>The project was made for the Allo V2 on Arbitrum Hackathon, organized by BuidlBox</h2>
-          <h2 style={h3InfoStyleColored}>Disclamer: </h2>
-          <h2 style={h3InfoStyle}>The project operates solely on the Goerli network</h2>
-          <h2 style={h3InfoBottomStyle}>Only the native token is permitted</h2>
-          <h2 style={h3InfoBottomStyle}>It is recommended to maintain a balance greater than 1.5 ETH</h2>
+          {/* <h2 style={h2Style}>Web3 Cowdfunding atop Allo-V2</h2> */}
+          {/* <h2 style={h3InfoStyle}>The project was made for the Allo V2 on Arbitrum Hackathon, organized by BuidlBox</h2> */}
+          {/* <h2 style={h3InfoStyleColored}>Disclamer: </h2> */}
+          {/* <h2 style={h3InfoStyle}>The project operates solely on the Goerli network</h2> */}
+          {/* <h2 style={h3InfoBottomStyle}>Only the native token is permitted</h2> */}
+          {/* <h2 style={h3InfoBottomStyle}>It is recommended to maintain a balance greater than 1.5 ETH</h2> */}
         </div>
+
         <div className='row'>
-          {JsonData.Portfolio.map((item, index) => (
-            <div className='col-md-4' key={index}>
-              <button
-                style={buttonStyle(index)}
-                onClick={() => setIndex(index)}
-              >
-                <div>
-                  <h3 style={h3Style} dangerouslySetInnerHTML={{ __html: item.title }} />
-                </div>
-              </button>
-            </div>
-          ))}
+          <div className='col-md-12' style={contentStyle}>
+          <Breadcrumbs aria-label="breadcrumb">
+              {['New Projects', 'Active Projects', 'Showcase Projects'].map((text, index) => (
+                <Link
+                  key={text}
+                  underline="hover"
+                  color={activeIndex === index ? "text.primary" : "inherit"}
+                  onClick={() => handleBreadcrumbClick(index)}
+                  sx={{
+                    cursor: 'pointer',
+                    fontSize: activeIndex === index ? '25px' : '21px', // Make text larger
+                    fontWeight: activeIndex === index ? 'bold' : 'normal',
+                    fontFamily: "FaunaRegular",
+                    backgroundColor: '#FFFFFF',
+                    color: "#693D8F"
+                  }}
+                >
+                  {text}
+                </Link>
+              ))}
+            </Breadcrumbs>
+          </div>
         </div>
 
         {renderContent()}
@@ -118,61 +109,9 @@ const exploreStyle = {
   paddingBottom: '10px',
 };
 
-const h3InfoStyle = { 
-  fontSize: '17px',
-  fontFamily: "RaxtorRegular", 
-  justifyContent: 'left',
-  justifyContent: 'left',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'left',
-  alignItems: 'left',
-  flexWrap: 'wrap',
-  gap: '20px',
-  backgroundColor: '#FFFFFF',
-  padding: '10px',
-  // borderRadius: "25px",
-  marginBottom: '0px',
-  marginTop: '0px',
+const contentStyle = {
+  marginTop: '30px',  
+  display: 'flex', // Added for flexbox layout
+  justifyContent: 'center', // Center content horizontally
+  alignItems: 'center', 
 };
-
-const h3InfoBottomStyle = { 
-  fontSize: '17px',
-  fontFamily: "RaxtorRegular", 
-  justifyContent: 'left',
-  justifyContent: 'left',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'left',
-  alignItems: 'left',
-  flexWrap: 'wrap',
-  gap: '20px',
-  backgroundColor: '#FFFFFF',
-  padding: '10px',
-  // borderRadius: "25px",
-  marginBottom: '0px',
-  marginTop: '0px',
-  borderBottomLeftRadius: "25px",
-  borderBottomRightRadius: "25px",
-};
-
-const h3InfoStyleColored = { 
-  fontSize: '17px',
-  color: "#8155BA",
-  fontFamily: "RaxtorRegular", 
-  justifyContent: 'left',
-  justifyContent: 'left',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'left',
-  alignItems: 'left',
-  // flexWrap: 'wrap',
-  gap: '20px',
-  backgroundColor: '#FFFFFF',
-  padding: '30px',
-  // borderRadius: "25px",
-  marginBottom: '0',
-  marginTop: '0px',
-};
-
-

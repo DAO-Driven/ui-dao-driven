@@ -241,14 +241,6 @@ header .intro-text {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
 }
 
-#portfolio h3 {
-  font-weight: 500;
-  padding: 5px 0;
-  font-family: "RaxtorRegular", sans-serif;
-  font-size: 27px;
-  
-}
-
 /* #portfolio h3:hover {
   font-family: "RaxtorRegular", sans-serif;
   color: #FFF;

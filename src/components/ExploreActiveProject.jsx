@@ -537,15 +537,6 @@ const progressBarContainerStyle = {
     margin: '20px 0' // Gives space around the progress bar
 };
 
-const loadingBarContainerStyle = {
-    marginTop: "100px",
-    width: '100%',  // Adjust as needed
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '20px 0' // Gives space around the progress bar
-};
-
 const progressBarVotesForContainerStyle = {
     width: '50%',  // Adjust as needed
     display: 'flex',
@@ -607,16 +598,4 @@ const milestonesFlexContainerStyle = {
     alignItems: 'center',
     flexWrap: 'wrap', // Allows items to wrap onto multiple lines
     gap: '20px' // Spacing between items
-};
-
-const rejectButtonStyle = {
-    fontSize: '15px',
-    marginLeft: '30px', 
-    backgroundColor: '#8155BA', 
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    marginBottom: '30px', 
-    cursor: 'pointer',
-    fontFamily: "FaunaRegular",
 };

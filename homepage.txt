@@ -1,3 +1,3 @@
-  "homepage": "https://alexandr-masl.github.io/frontend-gitcoin-alloV2-hackathon",
+  "homepage": "https://dao-driven.github.io/ui-dao-driven",
 
   MANAGER ADDRESS: 0xe9E81a25829810c1BF1e6082E5EA0C65BE140462

@@ -3,6 +3,22 @@ import Web3 from 'web3';
 import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
 import { ExploreFinishedProject } from "./ExploreFinishedProject";
 import ExecutorSupplierVotingStrategyABI from '../contracts/abis/ExecutorSupplierVotingStrategyAbi.json';
+
+import eth_icon from "../data/photos/github/ether.jpeg"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
 
@@ -111,29 +127,73 @@ export const FinishedProjects = () => {
 
             {!selectedProfileId && (
                 <div>
-                    <div className="section-title" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>                          
-                        <h2 style={h2Style}>Finished projects</h2>
-                    </div>
-
                     {loading ? (
                         <div style={loadingBarContainerStyle}>
                             <div className="loader"></div>
                         </div>
                     ) : (
                         <div className='row'>
-                            {profilesData.map((profile, i) => (
-                                <div key={`profile-${i}`} className='col-md-4'>
-                                    <button
-                                        className='col-md-4 project-button-content-style'
-                                        onClick={() => setSelectedProfileId(profile.id)}
-                                    >
-                                        <h3 style={h3Style}>{profile.name}</h3>
-                                        <p style={pStyle}>{profile.description}</p>
-                                        <p style={pStyle}>Result: {milestoneStatusLabel(profile.state)}</p>
-                                        
-                                    </button>
-                                </div>
-                            ))}
+                            <div className='col-md-12' style={contentStyle}>
+                                <Typography variant="h6" component="div" sx={{ 
+                                        flexGrow: 1, 
+                                        fontSize: '17px', // Make text larger
+                                        paddingBottom: 2, 
+                                        // fontWeight: 'bold',
+                                        fontFamily: "FaunaRegular",
+                                        color: "black",
+                                    }}
+                                >
+                                    Finished projects
+                                </Typography>
+                                <TableContainer component={Paper} sx={{ borderRadius: '25px', overflow: 'hidden' }}>
+                                    <Table sx={{ minWidth: 650, borderRadius: "25px", }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Token</TableCell>
+
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Name</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>State</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {profilesData.map((profile) => (
+                                                <TableRow
+                                                    key={profile.name}
+                                                    sx={{
+                                                        '&:last-child td, &:last-child th': { border: 0 },
+                                                        cursor: 'pointer',
+                                                        '&:hover': {
+                                                            backgroundColor: 'rgba(0, 0, 0, 0.04)', // Adjust the hover color as needed
+                                                        },
+                                                    }}
+                                                    onClick={() => setSelectedProfileId(profile.id)}
+                                                >
+                                                    <TableCell component="th" scope="row" sx={{ fontSize: '15px' }}>
+                                                        <Stack direction="row" spacing={2}>
+                                                            <Avatar 
+                                                                alt="Ether" 
+                                                                src={eth_icon} 
+                                                                sx={{ width: 56, height: 56, border: '1px solid green'}} // Adjust the size as needed
+                                                            />
+                                                        </Stack>
+
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
+                                                        {profile.name}
+                                                    </TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.calories}</TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.fat}</TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}></TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{milestoneStatusLabel(profile.state)}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -142,18 +202,6 @@ export const FinishedProjects = () => {
     );
 };
 
-const h2Style = {
-    fontSize: '21px',
-    marginTop: '100px',
-    marginBottom: '20px',
-    padding: '10px',
-    borderRadius: '15px', 
-};
-
-const h3Style = { fontSize: '24px', fontWeight: 'bold' };
-const pStyle = { fontSize: '16px' };
-const needStyle = { fontSize: '17px' };
-
 const loadingBarContainerStyle = {
     marginTop: "100px",
     width: '100%',  // Adjust as needed
@@ -161,4 +209,16 @@ const loadingBarContainerStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     margin: '20px 0' // Gives space around the progress bar
+};
+
+const contentStyle = {
+    fontSize: '21px',
+    marginTop: '100px',
+    marginBottom: '20px',
+    backgroundColor: '#FFFFFF',
+    color: "#8155BA",
+    borderRadius: "15px",
+    width: "100%",
+    paddingBottom: '15px',
+    paddingTop: '10px',
 };

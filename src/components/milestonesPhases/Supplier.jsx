@@ -6,7 +6,6 @@ import { StrategyWasExecutedModal } from "./modalStrategyExecuted";
 const {managerContractAddress} = require('../../contracts/contractsAddresses.json');
 
 
-
 export const Supplier = ({ projecExecutor, setOfferMilestonesModalClosed, supplierAddress, profileId }) => {
 
     const [voted, setVoted] = useState(null);

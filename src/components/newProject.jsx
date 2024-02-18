@@ -3,16 +3,22 @@ import { Modal } from './modalNewProject';
 import { ExploreAwaitinProjectModal } from "./ExploreAwaitingProject";
 import Web3 from 'web3';
 import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
+import eth_icon from "../data/photos/github/ether.jpeg"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
-
-
-const h2Style = { 
-    fontSize: '21px',
-    marginTop: '100px',
-    marginBottom: '20px',
-    padding: '10px',
-    borderRadius: '15px', 
-};
 
 
 export const NewProjectTable = () => {
@@ -32,9 +38,6 @@ export const NewProjectTable = () => {
         setExploreAwaitinProjectModal(current => !current);
     };
 
-    const h3Style = { fontSize: '24px', fontWeight: 'bold' };
-    const needStyle = { fontSize: '17px'};
-    const pStyle = { fontSize: '16px' }; // Example style
 
     useEffect(() => {
 
@@ -52,19 +55,27 @@ export const NewProjectTable = () => {
 
                     const awaitingProfiles = [];
 
-                    const profiles = await Promise.all(profileIds.map(async (id) => {
+                    await Promise.all(profileIds.map(async (id) => {
 
                         const supply = await managerContract.methods.getProjectSupply(id).call();
                         // console.log("=====> Project Supply")
                         // console.log(supply)
 
                         const projectHasPool = await managerContract.methods.getProjectPool(id).call();
-                        // console.log("=====> Project HAS POOL")
-                        // console.log(Number(projectHasPool))
+                        
 
                         if (!Number(projectHasPool)){
 
-                            awaitingProfiles.push({ id: id, name: supply.name, description: supply.description, need: web3Instance.utils.fromWei(supply.need, 'ether')})
+                            // console.log("=====> Project")
+                            // console.log(supply)
+
+                            awaitingProfiles.push({ 
+                                id: id, 
+                                name: supply.name, 
+                                description: supply.description, 
+                                need: web3Instance.utils.fromWei(supply.need, 'ether'),
+                                has: web3Instance.utils.fromWei(supply.has, 'ether'),
+                            })
                         }
                     }));
 
@@ -81,51 +92,119 @@ export const NewProjectTable = () => {
     
         initWeb3().finally(() => setLoading(false));
     }, [showExploreAwaitinProjectModal, showModal]);
-    
+
     return (
-        <div>
-            <div className="section-title" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h2 style={h2Style}>Projects that are awaiting investors</h2>
-                <button onClick={() => openModal()}>
-                    <h2 className="regular-button">Register new project</h2>
-                </button>
-            </div>
-
-            {loading ? (
-                <div style={loadingBarContainerStyle}>
-                    <div className="loader"></div>
-                </div>
-            ) : (
-                <div className='row'>
-                    {profilesData.map((profile, i) => (
-                        <div key={`profile-${i}`} className='col-md-4'>
-                            <button 
-                                className='col-md-4 project-button-content-style' 
-                                style={buttonContentStyle}
-                                onClick={() => openExploreAwaitinProjectModal(profile.id)}
+        <>
+            <div>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item>
+                            <Button 
+                            variant="contained" 
+                            onClick={openModal}
+                            sx={{
+                                fontSize: '13px',
+                                backgroundColor: '#FFFFFF', // Custom background color
+                                color: '#693D8F', // Text color set to #693D8F
+                                '&:hover': {
+                                  backgroundColor: '#693D8F', // Darker shade on hover
+                                  color: 'white', // You might want to change the text color on hover to white or any other color
+                                },
+                                padding: '10px 20px', // Custom padding
+                                borderRadius: '15px', // Custom border radius
+                                fontFamily: "FaunaRegular",
+                                marginTop: '50px',
+                            }}
                             >
-                                <h3 style={h3Style}>{profile.name}</h3>
-                                <p style={pStyle}>{profile.description}</p>
-                                <h3 style={needStyle}>Needs {profile.need} ETH</h3>
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
+                            Register New Project
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
 
-            {showModal && (
-                <Modal setShowModal={setShowModal} />
-            )}
-            {showExploreAwaitinProjectModal && (
-                <ExploreAwaitinProjectModal 
-                    setShowModal={setExploreAwaitinProjectModal} 
-                    profileId={selectedProfileId} 
-                />
-            )}
-        </div>
+                {loading ? (
+                    <div style={loadingBarContainerStyle}>
+                        <div className="loader"></div>
+                    </div>
+                ) : (
+                    <div className='row'>
+                        <div className='col-md-12' style={contentStyle}>
+                        <Typography variant="h6" component="div" sx={{ 
+                                flexGrow: 1, 
+                                fontSize: '17px', // Make text larger
+                                paddingBottom: 2, 
+                                // fontWeight: 'bold',
+                                fontFamily: "FaunaRegular",
+                                color: "black"
+                            }}
+                        >
+                            Projects that are awaiting investors
+                        </Typography>
+                            <TableContainer component={Paper} sx={{ borderRadius: '25px', overflow: 'hidden' }}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Token</TableCell>
+
+                                            <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Name</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Executors</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Managers</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Funds Raised</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {profilesData.map((profile) => (
+                                            <TableRow
+                                                key={profile.name}
+                                                sx={{
+                                                    '&:last-child td, &:last-child th': { border: 0 },
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        backgroundColor: 'rgba(0, 0, 0, 0.04)', // Adjust the hover color as needed
+                                                    },
+                                                }}
+                                                onClick={() => openExploreAwaitinProjectModal(profile.id)}
+                                            >
+                                                <TableCell component="th" scope="row" sx={{ fontSize: '15px' }}>
+                                                    <Stack direction="row" spacing={2}>
+                                                        <Avatar 
+                                                            alt="Ether" 
+                                                            src={eth_icon} 
+                                                            sx={{ width: 56, height: 56, border: '1px solid green'}} // Adjust the size as needed
+                                                        />
+                                                    </Stack>
+
+                                                </TableCell>
+                                                <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
+                                                    {profile.name}
+                                                </TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.calories}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.fat}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.need} ETH</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.has} ETH</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    </div>
+                )}
+
+                {showModal && (
+                    <Modal setShowModal={setShowModal} />
+                )}
+                {showExploreAwaitinProjectModal && (
+                    <ExploreAwaitinProjectModal 
+                        setShowModal={setExploreAwaitinProjectModal} 
+                        profileId={selectedProfileId} 
+                    />
+                )}
+            </div>
+        </>
     );
 };
-
 
 const loadingBarContainerStyle = {
     marginTop: "100px",
@@ -136,16 +215,13 @@ const loadingBarContainerStyle = {
     margin: '20px 0' // Gives space around the progress bar
 };
 
-const buttonContentStyle = {
-    overflowWrap: 'break-word',
-    wordWrap: 'break-word',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    padding: '10px',
-    // height: '100%', // Adjust height as needed
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    maxHeight: '500px',
+const contentStyle = {
+    fontSize: '21px',
+    marginTop: '25px',
+    marginBottom: '20px',
+    backgroundColor: '#FFFFFF',
+    color: "#8155BA",
+    borderRadius: "15px",
+    width: "100%",
+    paddingBottom: '15px',
 };

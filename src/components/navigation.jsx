@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import arbitrum_icon from "../data/photos/github/arbitrum-logo.webp"
 
 export const Navigation = () => {
   const [accounts, setAccounts] = useState(null);
@@ -56,33 +59,28 @@ export const Navigation = () => {
   return (
     <nav id='menu' className='navbar navbar-default navbar-fixed-top full-width'>
       <div className='container full-width'>
-        <div className='navbar-header'>
-          <button
-            type='button'
-            className='navbar-toggle collapsed'
-            data-toggle='collapse'
-            data-target='#bs-example-navbar-collapse-1'
-          >
-            <span className='sr-only'>Toggle navigation</span>
-            <span className='icon-bar'></span>
-            <span className='icon-bar'></span>
-            <span className='icon-bar'></span>
-          </button>
-          <a className='navbar-brand page-scroll' href='#page-top'>
-            _maslineze
-          </a>
-        </div>
-
+        <a className='navbar-brand page-scroll' href='#page-top'>
+            daodriven
+        </a>
         <div
           className='collapse navbar-collapse'
           id='bs-example-navbar-collapse-1'
         >
+
           <ul className='nav navbar-nav navbar-right'>
             {accounts && accounts.length > 0 ? (
               <li>
-                <a href='#' className='btn navbar-btn-custom btn-lg page-scroll'>
+                {/* <a href='#' className='btn navbar-btn-custom btn-lg page-scroll'>
                   Wallet ID: {accounts[0]}
-                </a>
+                </a> */}
+
+                <Stack direction="row" spacing={2}>
+                  <Avatar 
+                    alt="Arbitrum" 
+                    src={arbitrum_icon} 
+                    sx={{ width: 56, height: 56, border: '1px solid green'}} // Adjust the size as needed
+                  />
+                </Stack>
               </li>
             ) : (
               <li>
@@ -95,6 +93,7 @@ export const Navigation = () => {
               </li>
             )}
           </ul>
+
         </div>
       </div>
     </nav>
