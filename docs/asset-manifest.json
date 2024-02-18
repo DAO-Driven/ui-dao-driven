@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/ui-dao-driven/static/css/main.ae679ba8.css",
+    "main.js": "/ui-dao-driven/static/js/main.f7c51d0e.js",
+    "static/media/telegram-icon.png": "/ui-dao-driven/static/media/telegram-icon.0c26cf26616b77bbd71c.png",
+    "index.html": "/ui-dao-driven/index.html",
+    "main.ae679ba8.css.map": "/ui-dao-driven/static/css/main.ae679ba8.css.map",
+    "main.f7c51d0e.js.map": "/ui-dao-driven/static/js/main.f7c51d0e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ae679ba8.css",
+    "static/js/main.f7c51d0e.js"
+  ]
+}
