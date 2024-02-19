@@ -30,8 +30,9 @@ function CircularProgressWithLabel(props) {
         <CircularProgress 
           variant="determinate" 
           {...props} 
-          size={50} // Adjust the size as needed
-          thickness={4} // Adjust the stroke thickness as needed
+          size={50}
+          thickness={4}
+          sx={{ position: 'relative', display: 'inline-flex', color:"#693D8F"}}
         />
         <Box
           sx={{

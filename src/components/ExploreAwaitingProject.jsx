@@ -20,6 +20,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
 
@@ -34,6 +35,11 @@ function CircularProgressWithLabel(props) {
                 value={completed} // Use the completed value directly here
                 size={150} // Adjust the size as needed
                 thickness={4} // Adjust the stroke thickness as needed
+                sx={{ 
+                    position: 'relative', 
+                    display: 'inline-flex', 
+                    color:"#693D8F"
+                }}
             />
             <Box
                 sx={{
@@ -53,6 +59,7 @@ function CircularProgressWithLabel(props) {
                     color="text.secondary"
                     sx={{
                         fontSize: '4rem', // Adjust the font size as needed
+                        color:"#693D8F"
                     }}
                 >{`${Math.round(completed)}%`}</Typography>
             </Box>
@@ -292,7 +299,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Funding Progress</TableCell>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Become a supplier</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Become a manager</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -347,7 +354,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                                         borderBottomRightRadius: 15,
                                                         fontSize: '13px'
                                                     }}
-                                                    disabled={!amountToSend}
+                                                    disabled={!amountToSend || calculateProgress(projecData, web3).completed == 100}
                                                     onClick={() => { handleSendFunds()}}
                                                 >
                                                     Send Funds
@@ -385,7 +392,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>EXECUTORS</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Recipients:</TableCell>
                                             {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell> */}
                                         </TableRow>
                                     </TableHead>
@@ -409,14 +416,15 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                     overflow: 'hidden',
                                     borderTopLeftRadius: 3,
                                     borderTopRightRadius: 3,
-                                    borderBottomLeftRadius: 15,
-                                    borderBottomRightRadius: 15,
+                                    borderBottomLeftRadius: 3,
+                                    borderBottomRightRadius: 3,
+                                    // marginBottom: '50px',
                                 }}
                             >
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Managers</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Managers:</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -429,10 +437,71 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 </Table>
                             </TableContainer>
 
-                            <h2 style={h2SProjectDescriptiontyle}>Project description</h2>
-                            <p style={pStyle}>{projecData.description}</p>
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{ 
+                                    // borderRadius: '25px', 
+                                    overflow: 'hidden',
+                                    borderTopLeftRadius: 3,
+                                    borderTopRightRadius: 3,
+                                    borderBottomLeftRadius: 3,
+                                    borderBottomRightRadius: 3,
+                                    marginTop: '20px'
+                                }}
+                            >
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Project description:</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                <a
+                                                    href="https://ipfs.io/ipfs/bafybeiawfpso4qnjitd65472bqym5ch2px6puv74us6jdftxtpcbdg6igi/"
+                                                    target="_blank" // This ensures the link opens in a new tab
+                                                    rel="noopener noreferrer" // Security measure for links that open a new tab
+                                                    
+                                                    >
+                                                    https://ipfs.io/ipfs/bafybeiawfpso4qnjitd65472bqym5ch2px6puv74us6jdftxtpcbdg6igi
+                                                </a>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{ 
+                                    // borderRadius: '25px', 
+                                    overflow: 'hidden',
+                                    borderTopLeftRadius: 3,
+                                    borderTopRightRadius: 3,
+                                    borderBottomLeftRadius: 15,
+                                    borderBottomRightRadius: 15,
+                                    marginTop: '20px'
+                                }}
+                            >
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Allo-V2 Registry Profile ID:</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profileId}</TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+
     
-                            {(isSupplier && !revoked) && (
+                            {(isSupplier && !revoked && !calculateProgress(projecData, web3).completed == 100) && (
                                 <div>
                                     <button className="reject-button" onClick={handleRevokeSupply}>
                                         Revoke Supply
@@ -456,13 +525,7 @@ const h2Style = {
     fontFamily: "RaxtorRegular",
 
 };
-const h2SProjectDescriptiontyle = {
-    fontSize: '13px', 
-    padding: "10px",
-    color: "#8155BA",
-    fontFamily: "RaxtorRegular",
-    marginTop: '55px',
-};
+
 const fundingStyle = {
     fontSize: '17px',
     color: "695E93",
@@ -477,13 +540,6 @@ const fundingInfoPStyle = {
     marginBottom: '20px',
     fontFamily: "RaxtorRegular",
     marginTop: '25px',
-};
-
-const pStyle = {
-    fontSize: '17px',
-    color: "#444",
-    margin: 10,
-    marginBottom: '45px',
 };
 
 const h3Style = { 

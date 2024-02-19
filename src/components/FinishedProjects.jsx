@@ -3,7 +3,6 @@ import Web3 from 'web3';
 import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
 import { ExploreFinishedProject } from "./ExploreFinishedProject";
 import ExecutorSupplierVotingStrategyABI from '../contracts/abis/ExecutorSupplierVotingStrategyAbi.json';
-
 import eth_icon from "../data/photos/github/ether.jpeg"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,9 +14,6 @@ import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
