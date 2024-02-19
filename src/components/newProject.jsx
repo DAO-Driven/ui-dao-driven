@@ -17,8 +17,58 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import CircularProgress, {
+    CircularProgressProps,
+} from '@mui/material/CircularProgress';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
+
+function CircularProgressWithLabel(props) {
+    return (
+      <Box sx={{ position: 'relative', display: 'inline-flex',
+    }}>
+        <CircularProgress 
+          variant="determinate" 
+          {...props} 
+          size={50} // Adjust the size as needed
+          thickness={4} // Adjust the stroke thickness as needed
+        />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography
+            variant="caption"
+            component="div"
+            color="text.secondary"
+            sx={{
+              fontSize: '1.5rem', // Adjust the font size as needed
+            }}
+          >{`${Math.round(props.value)}%`}</Typography>
+        </Box>
+      </Box>
+    );
+} 
+
+function calculateProgress(projectData) {
+    const need = projectData.need;
+    const has = projectData.has;
+
+    if (!Number(need)) {
+        return { completed: 0};
+    }
+
+    const completed = (Number(has) / Number(need)) * 100;
+    return completed;
+}
 
 
 export const NewProjectTable = () => {
@@ -45,9 +95,10 @@ export const NewProjectTable = () => {
 
         const initWeb3 = async () => {
             if (window.ethereum) {
-                const web3Instance = new Web3(window.ethereum);
 
+                const web3Instance = new Web3(window.ethereum);
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
+
                 try {
                     const profileIds = await managerContract.methods.getProfiles().call();
                     // console.log("===== Profiles ")
@@ -61,13 +112,13 @@ export const NewProjectTable = () => {
                         // console.log("=====> Project Supply")
                         // console.log(supply)
 
+                        const projectSuppliers = await managerContract.methods.getProjectSuppliers(id).call();
+                        // console.log("===== Project Suppliers")
+                        // console.log(projectSuppliers)
+
                         const projectHasPool = await managerContract.methods.getProjectPool(id).call();
-                        
 
                         if (!Number(projectHasPool)){
-
-                            // console.log("=====> Project")
-                            // console.log(supply)
 
                             awaitingProfiles.push({ 
                                 id: id, 
@@ -75,6 +126,7 @@ export const NewProjectTable = () => {
                                 description: supply.description, 
                                 need: web3Instance.utils.fromWei(supply.need, 'ether'),
                                 has: web3Instance.utils.fromWei(supply.has, 'ether'),
+                                managers: projectSuppliers
                             })
                         }
                     }));
@@ -179,10 +231,13 @@ export const NewProjectTable = () => {
                                                 <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
                                                     {profile.name}
                                                 </TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.calories}</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.fat}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{1}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.managers.length}</TableCell>
                                                 <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.need} ETH</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.has} ETH</TableCell>
+                                                <TableCell align="right" sx={{ fontFamily: "FaunaRegular" }}>
+                                                    {/* {profile.has} ETH */}
+                                                    <CircularProgressWithLabel value={calculateProgress(profile)} />
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

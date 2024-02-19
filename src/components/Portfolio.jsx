@@ -66,7 +66,7 @@ export const Portfolio_ = () => {
         <div className='row'>
           <div className='col-md-12' style={contentStyle}>
           <Breadcrumbs aria-label="breadcrumb">
-              {['New Projects', 'Active Projects', 'Showcase Projects'].map((text, index) => (
+              {['Awaiting Projects', 'Active Projects', 'Showcase Projects'].map((text, index) => (
                 <Link
                   key={text}
                   underline="hover"

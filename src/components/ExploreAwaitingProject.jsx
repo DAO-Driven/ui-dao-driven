@@ -2,8 +2,63 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
-import {ProgressBar} from "./ProgressBar";
+import CircularProgress, {
+    CircularProgressProps,
+  } from '@mui/material/CircularProgress';
+import eth_icon from "../data/photos/github/ether.jpeg"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
+
+function CircularProgressWithLabel(props) {
+
+    const { completed } = props.value;
+
+    return (
+        <Box sx={{ position: 'relative', display: 'inline-flex'}}>
+            <CircularProgress
+                variant="determinate"
+                value={completed} // Use the completed value directly here
+                size={150} // Adjust the size as needed
+                thickness={4} // Adjust the stroke thickness as needed
+            />
+            <Box
+                sx={{
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Typography
+                    variant="caption"
+                    component="div"
+                    color="text.secondary"
+                    sx={{
+                        fontSize: '4rem', // Adjust the font size as needed
+                    }}
+                >{`${Math.round(completed)}%`}</Typography>
+            </Box>
+        </Box>
+    );
+}
 
 
 export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
@@ -19,7 +74,8 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     const [hoverOk, setHoverOK] = useState(false);
     const [loading, setLoading] = useState(false);
     const [revoked, setRevoked] = useState(false);
-
+    const [projecExecutor, setpPojecExecutor] = useState(null);
+    const [projectSuppliers, setProjectSuppliers] = useState([]);
 
     const handleOk = () => {
         setShowModal(false);
@@ -70,12 +126,19 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                 setFundetAmount(amountToSend);
                 setprojecData(supply);
 
+                const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
+                // console.log("===== Project Suppliers")
+                // console.log(projectSuppliers)
+                setProjectSuppliers(projectSuppliers)
+
             } catch (error) {
                 console.error("Error sending funds:", error);
                 alert("Error in sending funds. See console for details.");
             }
+
         }
 
+        setAmountToSend(0)
         setLoading(false);
     }
 
@@ -105,6 +168,10 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
 
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
                 const supply = await managerContract.methods.getProjectSupply(profileId).call({ gas: 1000000 });
+
+                console.log("====== PROJECT DATA")
+                console.log(supply)
+
                 setprojecData(supply);
 
                 const progress = calculateProgress(supply, web3Instance);
@@ -113,11 +180,18 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                 const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
                 // console.log("===== Project Suppliers")
                 // console.log(projectSuppliers)
+                setProjectSuppliers(projectSuppliers)
+
 
                 const isSupplier = projectSuppliers.find(supplier=> supplier == fetchedAccounts[0]);
                 // console.log("===== IS Supplier:", isSupplier);
 
                 setisSupplier(isSupplier)
+
+                const projectExecutor = await managerContract.methods.getProjectExecutor(profileId).call();
+                // console.log("===== Project Executor")
+                // console.log(projectExecutor)
+                setpPojecExecutor(projectExecutor);
 
             } else {
                 console.log("Please install MetaMask!");
@@ -141,28 +215,12 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
         }
     };
 
-    const buttonContentStyle = {
-        fontSize: '17px',
-        marginTop: '21px',  
-        marginBottom: '21px',
-        backgroundColor: "white",
-        color: amountToSend > 0 ? '#8155BA' : '#CCCCCC',
-        border: '1px solid #8155BA',
-        borderRadius: "15px",
-        cursor: amountToSend > 0 ? 'pointer' : 'not-allowed', // Change cursor when form is invalid
-        minWidth: '150px',
-        paddingTop: '10px', 
-        paddingBottom: '10px',
-        opacity: amountToSend > 0 ? 1 : 0.5, // Change opacity when form is invalid
-        fontFamily: "FaunaRegular",
-    };
-
     return (
         <div className='modal-overlay' onClick={closeModal}>
             <div className='modal modal-open'>
                 <div className='modal-content'>
                     <span className='close' onClick={() => setShowModal(false)}>&times;</span>
-                    <h2 style={h2Style}>Explore Awaiting Project</h2>
+                    <h2 style={h2Style}>Project</h2>
     
                     {loading ? (
                         <div style={loadingBarContainerStyle}>
@@ -171,21 +229,14 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                     ) : projecData ? (
                         <>
                             <h3 style={h3Style}>{projecData.name}</h3>
-                            <p style={pStyle}>{projecData.description}</p>
-                            <div style={progressBarContainerStyle}>
-                                <p style={fundingStyle}>Funding Progress</p>
-                                {projctProgress && (
-                                    <ProgressBar completed={projctProgress.completed} eth={projctProgress.ethReceived} totalNeeded={projctProgress.totalNeeded}/>
-                                )}
-                            </div>
-    
+
                             {fundedAmount && !revoked ? (
                                 projctProgress.ethReceived >= projctProgress.totalNeeded ? (
                                     <div style={progressBarContainerStyle}>
                                         <p style={fundingStyle}>Your contribution was pivotal 🎉🎉🎉</p>
                                         <p style={fundingStyle}>Thanks to your funding, the project has successfully launched!💫</p>
                                         <p style={fundingInfoPStyle}>The project has transitioned to the active phase and can now be found in the 'Active Projects' section. Stay tuned for updates on milestones and ongoing developments. Your input is vital in shaping the project's trajectory.</p>
-                                        <div>
+                                        {/* <div>
                                             <button 
                                                 onMouseEnter={() => console.log("====> onMouseEnter") }
                                                 onMouseLeave={() => setHoverOK(false)}
@@ -194,58 +245,199 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                             >
                                                 ok
                                             </button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 ) : (
                                     <div style={progressBarContainerStyle}>
                                         <p style={fundingStyle}>Your support propels us forward 🚀</p>
                                         <p style={fundingStyle}>Immense gratitude for being a part of this journey and believing in our project's vision! 🙏🙌</p>
                                         <p style={fundingInfoPStyle}>Stay tuned for the funding milestones! Upon reaching our funding target, you'll be elevated to a distinguished role on the project committee. As a holder of the esteemed 'Supplier Hat', you'll wield the power to shape the project's future by approving or vetoing its forthcoming phases.</p>
-                                        <div>
+                                        {/* <div>
                                             <button className="regular-button" onClick={handleOk}>
                                                 OK
                                             </button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 )
                             ) : (
                                 <>
-                                    {!revoked && (
-                                         <div>
-                                            <label htmlFor="amount" style={fundingStyle} >Become a supplier </label>
-                                            <input 
-                                                id="amount" 
-                                                style={inputStyle} 
-                                                value={amountToSend} 
-                                                onChange={(e) => setAmountToSend(e.target.value)} 
-                                            />
-                                            <button style={buttonContentStyle} onClick={handleSendFunds}>
-                                                Send Funds
-                                            </button>
-                                        </div>
-                                    )}
+                                   
                     
                                 </>
                 
                             )}
+
+                            {revoked && (
+                                <div style={progressBarContainerStyle}>
+                                    <p style={fundingStyle}>The supply has been successfully revoked, and the funds have been returned to you</p>
+                                    <div>
+                                        <button className="regular-button" onClick={handleOk}>
+                                            OK
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{ 
+                                    borderTopLeftRadius: 25,
+                                    borderTopRightRadius: 25,
+                                    borderBottomLeftRadius: 3,
+                                    borderBottomRightRadius: 3, 
+                                    overflow: 'hidden', 
+                                    mb: 2 }}
+                            >
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Funding Progress</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Become a supplier</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                <CircularProgressWithLabel value={calculateProgress(projecData, web3)} />
+                                            </TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 0 }}>
+                                                <Paper
+                                                    component="form"
+                                                    sx={{ 
+                                                        p: '2px', 
+                                                        display: 'flex', 
+                                                        alignItems: 'center', 
+                                                        width: 250,
+                                                        borderTopLeftRadius: 15,
+                                                        borderTopRightRadius: 15,
+                                                        borderBottomLeftRadius: 3,
+                                                        borderBottomRightRadius: 3, 
+                                                    }}
+                                                    >
+                                                    <InputBase
+                                                        sx={{ ml: 1, flex: 1, height: '50px', fontSize: '17px'}}
+                                                        placeholder="0.0"
+                                                        inputProps={{ 'aria-label': 'amount to send' }}
+                                                        onChange={(e) => setAmountToSend(e.target.value)}
+                                                    />
+                                                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                                                    <Stack direction="row" spacing={2}>
+                                                        <Avatar 
+                                                            alt="Ether" 
+                                                            src={eth_icon} 
+                                                            sx={{ width: 30, height: 30, border: '1px solid green'}} // Adjust the size as needed
+                                                        />
+                                                    </Stack>
+                                                </Paper>
+                                                <Button
+                                                    variant="contained"
+                                                    sx={{ 
+                                                        mt: 1, 
+                                                        width: 250, 
+                                                        height: '50px', 
+                                                        backgroundColor: '#8155BA', 
+                                                        '&:hover': { 
+                                                            backgroundColor: '#693D8F' 
+                                                        }, 
+                                                        fontFamily: "FaunaRegular",
+                                                        borderTopLeftRadius: 3,
+                                                        borderTopRightRadius: 3,
+                                                        borderBottomLeftRadius: 15,
+                                                        borderBottomRightRadius: 15,
+                                                        fontSize: '13px'
+                                                    }}
+                                                    disabled={!amountToSend}
+                                                    onClick={() => { handleSendFunds()}}
+                                                >
+                                                    Send Funds
+                                                </Button>
+                                            </Box>
+
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <TableContainer component={Paper} sx={{ borderRadius: '5px', overflow: 'hidden', mb: 2 }}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Funds Raised</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Required Funding</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                {web3.utils.fromWei(projecData.has, 'ether')} ETH
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                {web3.utils.fromWei(projecData.need, 'ether')} ETH
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <TableContainer component={Paper} sx={{ borderRadius: '5px', overflow: 'hidden', mb: 2 }}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>EXECUTORS</TableCell>
+                                            {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell> */}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                {projecExecutor}
+                                            </TableCell>
+                                            {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                {web3.utils.fromWei(projecData.need, 'ether')} ETH
+                                            </TableCell> */}
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{ 
+                                    // borderRadius: '25px', 
+                                    overflow: 'hidden',
+                                    borderTopLeftRadius: 3,
+                                    borderTopRightRadius: 3,
+                                    borderBottomLeftRadius: 15,
+                                    borderBottomRightRadius: 15,
+                                }}
+                            >
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Managers</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {projectSuppliers.map((profile) => (
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <h2 style={h2SProjectDescriptiontyle}>Project description</h2>
+                            <p style={pStyle}>{projecData.description}</p>
     
                             {(isSupplier && !revoked) && (
                                 <div>
-                                    <label htmlFor="amount" style={fundingStyle} >Revoke Supply </label>
                                     <button className="reject-button" onClick={handleRevokeSupply}>
-                                        revoke
+                                        Revoke Supply
                                     </button>
                                 </div>
-                            )}
-                            {revoked && (
-                                <div style={progressBarContainerStyle}>
-                                <p style={fundingStyle}>The supply has been successfully revoked, and the funds have been returned to you</p>
-                                <div>
-                                    <button className="regular-button" onClick={handleOk}>
-                                        OK
-                                    </button>
-                                </div>
-                            </div>
                             )}
                         </>
                     ) : null}
@@ -258,9 +450,18 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
 
 
 const h2Style = {
-    fontSize: '27px', 
+    fontSize: '13px', 
     padding: "10px",
     color: "#8155BA",
+    fontFamily: "RaxtorRegular",
+
+};
+const h2SProjectDescriptiontyle = {
+    fontSize: '13px', 
+    padding: "10px",
+    color: "#8155BA",
+    fontFamily: "RaxtorRegular",
+    marginTop: '55px',
 };
 const fundingStyle = {
     fontSize: '17px',
@@ -281,26 +482,15 @@ const fundingInfoPStyle = {
 const pStyle = {
     fontSize: '17px',
     color: "#444",
-    margin: 70    
+    margin: 10,
+    marginBottom: '45px',
 };
-
-const inputStyle = {
-    width: '30%', 
-    padding: '8px', 
-    margin: '10px 0 10px 0',        
-    borderRadius: '4px', 
-    border: '1px solid #ccc', 
-    boxSizing: 'border-box',
-    marginBottom: '30px',
-    color: "#8155BA",
-    marginRight: '25px',
-};
-
 
 const h3Style = { 
-    fontSize: '24px', 
+    fontSize: '27px', 
     fontWeight: 'bold',
-    color: "695E93"
+    color: "695E93",
+    fontFamily: "FaunaRegular"
 };
 
 const progressBarContainerStyle = {
