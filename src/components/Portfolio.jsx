@@ -4,6 +4,13 @@ import { ActiveProjects } from "./activeProjects";
 import { FinishedProjects } from "./FinishedProjects";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 export const Portfolio_ = () => {
@@ -65,26 +72,55 @@ export const Portfolio_ = () => {
 
         <div className='row'>
           <div className='col-md-12' style={contentStyle}>
-          <Breadcrumbs aria-label="breadcrumb">
-              {['Awaiting Projects', 'Active Projects', 'Showcase Projects'].map((text, index) => (
-                <Link
-                  key={text}
-                  underline="hover"
-                  color={activeIndex === index ? "text.primary" : "inherit"}
-                  onClick={() => handleBreadcrumbClick(index)}
-                  sx={{
-                    cursor: 'pointer',
-                    fontSize: activeIndex === index ? '25px' : '21px', // Make text larger
-                    fontWeight: activeIndex === index ? 'bold' : 'normal',
-                    fontFamily: "FaunaRegular",
-                    backgroundColor: '#FFFFFF',
-                    color: "#693D8F"
-                  }}
-                >
-                  {text}
-                </Link>
-              ))}
-            </Breadcrumbs>
+            <TableContainer 
+                component={Paper} 
+                sx={{ 
+                    // borderRadius: '25px', 
+                    overflow: 'hidden',
+                    borderTopLeftRadius: 25,
+                    borderTopRightRadius: 25,
+                    borderBottomLeftRadius: 25,
+                    borderBottomRightRadius: 25,
+                    // marginBottom: '50px',
+                }}
+            >
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>menu</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow align="center">
+                          <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}
+                          >
+                              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                  {['AWAITIG PROJECTS', 'ACTIVE PROJECTS', 'SHOWCASE PROJECTS'].map((text, index) => (
+                                    <Link
+                                      key={text}
+                                      underline="hover"
+                                      color={activeIndex === index ? "text.primary" : "inherit"}
+                                      onClick={() => handleBreadcrumbClick(index)}
+                                      sx={{
+                                        cursor: 'pointer',
+                                        fontSize: activeIndex === index ? '17px' : '15px',
+                                        fontWeight: activeIndex === index ? 'bold' : 'normal',
+                                        fontFamily: "FaunaRegular",
+                                        backgroundColor: '#FFFFFF',
+                                        color: "#693D8F"
+                                      }}
+                                    >
+                                      {text}
+                                    </Link>
+                                  ))}
+                                </Breadcrumbs>
+                              </div>
+                          </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
           </div>
         </div>
 

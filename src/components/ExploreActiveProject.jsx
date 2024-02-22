@@ -427,7 +427,7 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                                     <p style={milestoneInfoStyle}>Status: {milestoneStatusLabel(Number(milestone.milestoneStatus))}</p>
                                                     <div style={milestonesFlexContainerStyle}>
                                                     <div style={progressBarVotesForContainerStyleSmall}>
-                                                            <p style={infoStyle}>Milestone's Votes</p>
+                                                            {/* <p style={infoStyle}>Milestone's Votes</p> */}
                                                             <ProgressBarVotes 
                                                                 completed={calculateVotesPercentage(totalSupply, milestone.votesFor)}
                                                                 label={"For"}

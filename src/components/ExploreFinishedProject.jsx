@@ -102,7 +102,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                     padding: '2px 4px', // Add some padding inside the border
                     borderRadius: '4px', // Optional: to make the corners rounded
                 }}>
-                    Accepted
+                    Executed
                 </span>
             );
         }
@@ -395,7 +395,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                                 <p style={milestoneInfoStyle}>Status: {milestoneStatusLabel(Number(milestone.milestoneStatus))}</p>
                                                 <div style={milestonesFlexContainerStyle}>
                                                 <div style={progressBarVotesForContainerStyleSmall}>
-                                                        <p style={infoStyle}>Milestone's Votes</p>
+                                                        {/* <p style={infoStyle}>Milestone's Votes</p> */}
                                                         <ProgressBarVotes 
                                                             completed={calculateVotesPercentage(totalSupply, milestone.votesFor)}
                                                             label={"Votes For"}

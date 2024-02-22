@@ -38,7 +38,7 @@ function CircularProgressWithLabel(props) {
                 sx={{ 
                     position: 'relative', 
                     display: 'inline-flex', 
-                    color:"#693D8F"
+                    color:"#BEAFC2"
                 }}
             />
             <Box
@@ -59,7 +59,7 @@ function CircularProgressWithLabel(props) {
                     color="text.secondary"
                     sx={{
                         fontSize: '4rem', // Adjust the font size as needed
-                        color:"#693D8F"
+                        color:"#BEAFC2"
                     }}
                 >{`${Math.round(completed)}%`}</Typography>
             </Box>
@@ -72,13 +72,13 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
 
     // const isMobile = (window.innerWidth <= 768);
     const [projecData, setprojecData] = useState(null);
+    const [projectInfo, setprojectInfo] = useState(null);
     const [projctProgress, setProjctProgress] = useState(null);
     const [amountToSend, setAmountToSend] = useState(0);
     const [web3, setWeb3] = useState(null);
     const [accounts, setAccounts] = useState(null);
     const [fundedAmount, setFundetAmount] = useState(null);
     const [isSupplier, setisSupplier] = useState(null);
-    const [hoverOk, setHoverOK] = useState(false);
     const [loading, setLoading] = useState(false);
     const [revoked, setRevoked] = useState(false);
     const [projecExecutor, setpPojecExecutor] = useState(null);
@@ -174,24 +174,28 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                 setAccounts(fetchedAccounts);
 
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
-                const supply = await managerContract.methods.getProjectSupply(profileId).call({ gas: 1000000 });
 
-                console.log("====== PROJECT DATA")
-                console.log(supply)
-
+                const supply = await managerContract.methods.getProjectSupply(profileId).call();
+                // console.log("====== PROJECT SUPPLY")
+                // console.log(supply)
                 setprojecData(supply);
+
+                const projectData = await managerContract.methods.getProfile(profileId).call();
+                // console.log("====== PROJECT DATA")
+                // console.log(projectData)
+                setprojectInfo(projectData);
 
                 const progress = calculateProgress(supply, web3Instance);
                 setProjctProgress(progress);
 
                 const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
-                // console.log("===== Project Suppliers")
-                // console.log(projectSuppliers)
+                console.log("===== Project Suppliers")
+                console.log(projectSuppliers)
                 setProjectSuppliers(projectSuppliers)
 
 
                 const isSupplier = projectSuppliers.find(supplier=> supplier == fetchedAccounts[0]);
-                // console.log("===== IS Supplier:", isSupplier);
+                console.log("===== IS Supplier:", isSupplier);
 
                 setisSupplier(isSupplier)
 
@@ -233,9 +237,9 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                         <div style={loadingBarContainerStyle}>
                             <div className="loader"></div>
                         </div>
-                    ) : projecData ? (
+                    ) : (projecData && projectInfo) ? (
                         <>
-                            <h3 style={h3Style}>{projecData.name}</h3>
+                            <h3 style={h3Style}>{projectInfo.name}</h3>
 
                             {fundedAmount && !revoked ? (
                                 projctProgress.ethReceived >= projctProgress.totalNeeded ? (
@@ -243,16 +247,6 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                         <p style={fundingStyle}>Your contribution was pivotal 🎉🎉🎉</p>
                                         <p style={fundingStyle}>Thanks to your funding, the project has successfully launched!💫</p>
                                         <p style={fundingInfoPStyle}>The project has transitioned to the active phase and can now be found in the 'Active Projects' section. Stay tuned for updates on milestones and ongoing developments. Your input is vital in shaping the project's trajectory.</p>
-                                        {/* <div>
-                                            <button 
-                                                onMouseEnter={() => console.log("====> onMouseEnter") }
-                                                onMouseLeave={() => setHoverOK(false)}
-                                                className="regular-button"
-                                                onClick={handleOk}
-                                            >
-                                                ok
-                                            </button>
-                                        </div> */}
                                     </div>
                                 ) : (
                                     <div style={progressBarContainerStyle}>
@@ -298,8 +292,8 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Funding Progress</TableCell>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Become a manager</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2" }}>Funding Progress</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Become a manager</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -343,9 +337,9 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                                         mt: 1, 
                                                         width: 250, 
                                                         height: '50px', 
-                                                        backgroundColor: '#8155BA', 
+                                                        backgroundColor: "#BEAFC2", 
                                                         '&:hover': { 
-                                                            backgroundColor: '#693D8F' 
+                                                            backgroundColor: "#BEAFC2"
                                                         }, 
                                                         fontFamily: "FaunaRegular",
                                                         borderTopLeftRadius: 3,
@@ -354,7 +348,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                                         borderBottomRightRadius: 15,
                                                         fontSize: '13px'
                                                     }}
-                                                    disabled={!amountToSend || calculateProgress(projecData, web3).completed == 100}
+                                                    disabled={!Number(amountToSend) || calculateProgress(projecData, web3).completed == 100}
                                                     onClick={() => { handleSendFunds()}}
                                                 >
                                                     Send Funds
@@ -371,16 +365,16 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Funds Raised</TableCell>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Required Funding</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Funds Raised</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Required Funding</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
                                                 {web3.utils.fromWei(projecData.has, 'ether')} ETH
                                             </TableCell>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
                                                 {web3.utils.fromWei(projecData.need, 'ether')} ETH
                                             </TableCell>
                                         </TableRow>
@@ -392,13 +386,13 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Recipients:</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Recipients:</TableCell>
                                             {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
                                                 {projecExecutor}
                                             </TableCell>
                                             {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
@@ -424,13 +418,13 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Managers:</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Managers:</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {projectSuppliers.map((profile) => (
+                                        {projectSuppliers.map((manager) => (
                                             <TableRow>
-                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile}</TableCell>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{manager}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -452,19 +446,19 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Project description:</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Project description:</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow>
                                             <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
                                                 <a
-                                                    href="https://ipfs.io/ipfs/bafybeiawfpso4qnjitd65472bqym5ch2px6puv74us6jdftxtpcbdg6igi/"
+                                                    href={projectInfo.metadata.pointer}
                                                     target="_blank" // This ensures the link opens in a new tab
                                                     rel="noopener noreferrer" // Security measure for links that open a new tab
                                                     
                                                     >
-                                                    https://ipfs.io/ipfs/bafybeiawfpso4qnjitd65472bqym5ch2px6puv74us6jdftxtpcbdg6igi
+                                                    {projectInfo.metadata.pointer}
                                                 </a>
                                             </TableCell>
                                         </TableRow>
@@ -488,21 +482,20 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Allo-V2 Registry Profile ID:</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Allo-V2 Registry Profile ID:</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profileId}</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>{profileId}</TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
 
+                            {(isSupplier && !revoked && calculateProgress(projecData, web3).completed != 100) && (
 
-    
-                            {(isSupplier && !revoked && !calculateProgress(projecData, web3).completed == 100) && (
-                                <div>
+                                <div style={divStyle}>
                                     <button className="reject-button" onClick={handleRevokeSupply}>
                                         Revoke Supply
                                     </button>
@@ -517,18 +510,20 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     
 };
 
+const divStyle = {
+    marginTop: '20px', // Adjust the value as needed
+};
 
 const h2Style = {
     fontSize: '13px', 
     padding: "10px",
-    color: "#8155BA",
+    color: "#BEAFC2",
     fontFamily: "RaxtorRegular",
-
 };
 
 const fundingStyle = {
     fontSize: '17px',
-    color: "695E93",
+    color: "#695E93",
     marginBottom: '0px',
     fontFamily: "RaxtorRegular",
     marginRight: '25px',
@@ -536,7 +531,7 @@ const fundingStyle = {
 
 const fundingInfoPStyle = {
     fontSize: '13px',
-    color: "695E93",
+    color: "#695E93",
     marginBottom: '20px',
     fontFamily: "RaxtorRegular",
     marginTop: '25px',

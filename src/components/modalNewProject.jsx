@@ -2,6 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
 
 
@@ -13,13 +21,11 @@ export const Modal = ({ setShowModal }) => {
     const [name, setName] = useState('');
     const [pointer, setPointer] = useState('');
     const [recipientAddress, setRecipientAddress] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
     const [web3, setWeb3] = useState(null);
     const [accounts, setAccounts] = useState(null);
     const [txHash, settxHash] = useState(null);
     const [profileId, sepPofileId] = useState(null);
     const [loading, setLoading] = useState(false);
-
 
 
     useEffect(() => {
@@ -77,17 +83,7 @@ export const Modal = ({ setShowModal }) => {
 
         try {
 
-            const managerContract = new web3.eth.Contract(ManagerContractABI, managerContractAddress);
-
-            managerContract.methods.getProfiles().call()
-            .then(profiles => {
-                console.log("Profiles:", profiles);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });            
-
-            // Fetch the current nonce
+            const managerContract = new web3.eth.Contract(ManagerContractABI, managerContractAddress);         
             const nonce = await web3.eth.getTransactionCount(accounts[0], 'latest');
 
             const tx = {
@@ -98,9 +94,8 @@ export const Modal = ({ setShowModal }) => {
                     web3.utils.toWei(needsFunds, 'ether'),
                     parseInt(projectId),
                     name,
-                    [1, "test pointer"],
-                    recipientAddress,
-                    projectDescription
+                    [1, pointer],
+                    recipientAddress
                 ).encodeABI()
             };
 
@@ -108,14 +103,40 @@ export const Modal = ({ setShowModal }) => {
             const sentTx = await web3.eth.sendTransaction(tx);
             const txReceipt = await web3.eth.getTransactionReceipt(sentTx.transactionHash);
 
-            console.log("========> txReceipt <===========")
-            console.log(txReceipt)
+            // console.log("========> txReceipt <===========")
+            // console.log(txReceipt)
+            // console.log(typeof txReceipt.blockNumber); // Check the type
+            // console.log(txReceipt.blockNumber); // Check the value
 
-            settxHash(sentTx.transactionHash);
-            sepPofileId(txReceipt.logs[2].topics[1]);
 
-            console.log("=====> txHash:", txHash)
-            console.log("=====> profileId:", profileId)
+            const eventName = "ProjectRegistered"; // Ensure this matches the actual event name in your contract
+            const fromBlock = Number(txReceipt.blockNumber) - 1; // Start searching from the block before the transaction
+            const toBlock = Number(txReceipt.blockNumber); // End searching at the block of the transaction to narrow down our search
+           
+            const fetchPastEvents = async (contract, eventName, fromBlock, toBlock) => {
+                try {
+                    const events = await contract.getPastEvents(eventName, {
+                        fromBlock: fromBlock,
+                        toBlock: toBlock
+                    });
+                
+                    events.forEach(event => {
+                        // console.log(`Event caught: Project ID: ${event.returnValues.profileId}, Project Number Nonce: ${event.returnValues.nonce}`);
+                        // console.log(event)
+                        if (parseInt(projectId) == Number(event.returnValues.nonce))
+                            sepPofileId(event.returnValues.profileId);
+                    });
+
+                } catch (error) {
+                    console.error("Error fetching events:", error);
+                }
+            };
+
+            await fetchPastEvents(managerContract, eventName, fromBlock, toBlock);
+
+            settxHash(txReceipt.transactionHash);
+            // console.log("=====> txHash:", txReceipt.transactionHash)
+            // console.log("=====> profileId:", profileId)
 
         } catch (error) {
             console.error("Error in transaction:", error);
@@ -126,7 +147,7 @@ export const Modal = ({ setShowModal }) => {
     };
 
     const isFormValid = () => {
-        return needsFunds && projectId && name && pointer && recipientAddress && projectDescription;
+        return needsFunds && projectId && name && pointer && recipientAddress;
     };
 
     const h2Style = {
@@ -142,11 +163,11 @@ export const Modal = ({ setShowModal }) => {
     const inputStyle = {
         width: '100%', 
         padding: '8px', 
-        margin: '10px 0', 
-        borderRadius: '4px', 
+        // margin: '10px 0', 
+        borderRadius: '25px', 
         border: '1px solid #ccc', 
         boxSizing: 'border-box',
-        marginBottom: '30px',
+        textAlign: 'center', // Add this line to center-align the text
         color: "#8155BA",
     };
 
@@ -163,6 +184,7 @@ export const Modal = ({ setShowModal }) => {
         paddingTop: '10px', 
         paddingBottom: '10px',
         opacity: isFormValid ? 1 : 0.5, // Change opacity when form is invalid
+        fontFamily: "FaunaRegular"
     });
 
     return (
@@ -190,33 +212,156 @@ export const Modal = ({ setShowModal }) => {
 
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label style={pStyle}>Needs ETH </label>
-                                <input type="text" name="needsFunds" style={inputStyle} onChange={(e) => setNeedsFunds(e.target.value)}/>
+
+                                <TableContainer 
+                                    component={Paper} 
+                                    sx={{ 
+                                        // borderRadius: '25px', 
+                                        overflow: 'hidden',
+                                        borderTopLeftRadius: 15,
+                                        borderTopRightRadius: 15,
+                                        borderBottomLeftRadius: 3,
+                                        borderBottomRightRadius: 3,
+                                        marginTop: '20px'
+                                    }}
+                                >
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Needs ETH</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                 <input type="text" name="needsFunds" style={inputStyle} onChange={(e) => setNeedsFunds(e.target.value)}/>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                             <div>
-                                <label style={pStyle} >Project Number ID</label>
-                                <input type="text" name="projectId" style={inputStyle} onChange={(e) => setProjectId(e.target.value)}/>
+
+                            <TableContainer 
+                                    component={Paper} 
+                                    sx={{ 
+                                        // borderRadius: '25px', 
+                                        overflow: 'hidden',
+                                        borderTopLeftRadius: 3,
+                                        borderTopRightRadius: 3,
+                                        borderBottomLeftRadius: 3,
+                                        borderBottomRightRadius: 3,
+                                        marginTop: '20px'
+                                    }}
+                                >
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Project Number ID</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                    <input type="text" name="projectId" style={inputStyle} onChange={(e) => setProjectId(e.target.value)}/>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                             <div>
-                                <label style={pStyle} >Name</label>
-                                <input type="text" name="name" style={inputStyle} onChange={(e) => setName(e.target.value)}/>
+                                <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            // borderRadius: '25px', 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 3,
+                                            borderTopRightRadius: 3,
+                                            borderBottomLeftRadius: 3,
+                                            borderBottomRightRadius: 3,
+                                            marginTop: '20px'
+                                        }}
+                                >
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Project Name</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                    <input type="text" name="name" style={inputStyle} onChange={(e) => setName(e.target.value)}/>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                             <div>
-                                <label style={pStyle} >Pointer</label>
-                                <input type="text" name="pointer" style={inputStyle} onChange={(e) => setPointer(e.target.value)}/>
+                                <TableContainer 
+                                            component={Paper} 
+                                            sx={{ 
+                                                // borderRadius: '25px', 
+                                                overflow: 'hidden',
+                                                borderTopLeftRadius: 3,
+                                                borderTopRightRadius: 3,
+                                                borderBottomLeftRadius: 3,
+                                                borderBottomRightRadius: 3,
+                                                marginTop: '20px'
+                                            }}
+                                >
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Project Description Pointer</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                    <input type="text" name="pointer" style={inputStyle} onChange={(e) => setPointer(e.target.value)}/>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                             <div>
-                                <label style={pStyle} >Recipient Address</label>
-                                <input type="text" name="recipientAddress" style={inputStyle} onChange={(e) => setRecipientAddress(e.target.value)}/>
-                            </div>
-                            <div>
-                                <label style={pStyle} >Project description</label>
-                                <input type="text" name="projectDescription" style={inputStyle} onChange={(e) => setProjectDescription(e.target.value)}/>
+                                <TableContainer 
+                                                component={Paper} 
+                                                sx={{ 
+                                                    // borderRadius: '25px', 
+                                                    overflow: 'hidden',
+                                                    borderTopLeftRadius: 3,
+                                                    borderTopRightRadius: 3,
+                                                    borderBottomLeftRadius: 15,
+                                                    borderBottomRightRadius: 15,
+                                                    marginTop: '20px'
+                                                }}
+                                >
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", }}>Recipient Address</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                    <input type="text" name="recipientAddress" style={inputStyle} onChange={(e) => setRecipientAddress(e.target.value)}/>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                             <div>
                                 {accounts && accounts.length > 0 ? (
                                     <button type="submit" style={buttonContentStyle(isFormValid())} disabled={!isFormValid()}>
-                                        Submit
+                                        Register
                                     </button>
                                 ) : (
                                     <button onClick={connectWallet} style={buttonContentStyle(false)}>

@@ -57,8 +57,16 @@ export const ActiveProjects = () => {
                             if (strategyState == 1){
 
                                 const supply = await managerContract.methods.getProjectSupply(project).call();
+                                const projectData = await managerContract.methods.getProfile(project).call();
+                                const projectSuppliers = await managerContract.methods.getProjectSuppliers(project).call();
 
-                                activeProjects.push({ id: project, name: supply.name, description: supply.description, need: web3Instance.utils.fromWei(supply.need, 'ether') });
+                                activeProjects.push({ 
+                                    id: project, 
+                                    name: projectData.name, 
+                                    description: supply.description, 
+                                    need: web3Instance.utils.fromWei(supply.need, 'ether'),
+                                    managers: projectSuppliers.length
+                                });
                             }
                         }
                     }))
@@ -100,7 +108,7 @@ export const ActiveProjects = () => {
                                     fontSize: '17px', // Make text larger
                                     paddingBottom: 2, 
                                     fontFamily: "FaunaRegular",
-                                    color: "black"
+                                    color: "#695E93"
                                 }}
                             >
                                 Active Phase Projects
@@ -109,13 +117,12 @@ export const ActiveProjects = () => {
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Token</TableCell>
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Token</TableCell>
 
-                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Name</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Executors</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Managers</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Funds Raised</TableCell>
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Name</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Executors</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Managers</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Funds Raised</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -144,13 +151,9 @@ export const ActiveProjects = () => {
                                                     <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
                                                         {profile.name}
                                                     </TableCell>
-                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{1}</TableCell>
-                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{"profile.managers.length"}</TableCell>
-                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.need} ETH</TableCell>
-                                                    <TableCell align="right" sx={{ fontFamily: "FaunaRegular" }}>
-                                                        {/* {profile.has} ETH */}
-                                                        {/* <CircularProgressWithLabel value={calculateProgress(profile)} /> */}
-                                                    </TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{1}</TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.managers}</TableCell>
+                                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.need} ETH</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>

@@ -1,113 +1,49 @@
 [
   {
+    "inputs": [],
+    "name": "AMOUNT_IS_BIGGER_THAN_DECLARED_NEEDEDS",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
-        "name": "alloAddress",
+        "name": "target",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_strategy",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_strategyFactory",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_hatsContractAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_managerHatID",
-        "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": "AddressEmptyCode",
+    "type": "error"
   },
   {
-    "inputs": [],
-    "name": "ALLOCATION_ACTIVE",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "ERC1967InvalidImplementation",
     "type": "error"
   },
   {
     "inputs": [],
-    "name": "ALLOCATION_NOT_ACTIVE",
+    "name": "ERC1967NonPayable",
     "type": "error"
   },
   {
     "inputs": [],
-    "name": "ALLOCATION_NOT_ENDED",
+    "name": "EXECUTOR_IS_NOT_ALLOWED_TO_SUPPLY",
     "type": "error"
   },
   {
     "inputs": [],
-    "name": "ALREADY_INITIALIZED",
+    "name": "FailedInnerCall",
     "type": "error"
   },
   {
     "inputs": [],
-    "name": "AMOUNT_MISMATCH",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ANCHOR_ERROR",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ARRAY_MISMATCH",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "INVALID",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "INVALID_ADDRESS",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "INVALID_FEE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "INVALID_METADATA",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "INVALID_REGISTRATION",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "IS_APPROVED_STRATEGY",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "MISMATCH",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NONCE_NOT_AVAILABLE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_APPROVED_STRATEGY",
+    "name": "InvalidInitialization",
     "type": "error"
   },
   {
@@ -117,27 +53,29 @@
   },
   {
     "inputs": [],
-    "name": "NOT_IMPLEMENTED",
+    "name": "NotInitializing",
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "NOT_INITIALIZED",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnableInvalidOwner",
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "NOT_PENDING_OWNER",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "POOL_ACTIVE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "POOL_INACTIVE",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "OwnableUnauthorizedAccount",
     "type": "error"
   },
   {
@@ -147,44 +85,56 @@
   },
   {
     "inputs": [],
-    "name": "RECIPIENT_ALREADY_ACCEPTED",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "recipientId",
-        "type": "address"
-      }
-    ],
-    "name": "RECIPIENT_ERROR",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "RECIPIENT_NOT_ACCEPTED",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "REGISTRATION_NOT_ACTIVE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
     "name": "ReentrancyGuardReentrantCall",
     "type": "error"
   },
   {
     "inputs": [],
-    "name": "UNAUTHORIZED",
+    "name": "UUPSUnauthorizedCallContext",
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "ZERO_ADDRESS",
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "slot",
+        "type": "bytes32"
+      }
+    ],
+    "name": "UUPSUnsupportedProxiableUUID",
     "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -225,6 +175,38 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "profileId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "nonce",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProjectRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "NATIVE",
     "outputs": [
@@ -232,6 +214,19 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -434,19 +429,9 @@
             "internalType": "uint256",
             "name": "has",
             "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "description",
-            "type": "string"
           }
         ],
-        "internalType": "struct Manager.ProjectSupply",
+        "internalType": "struct ManagerUpgradeble.ProjectSupply",
         "name": "",
         "type": "tuple"
       }
@@ -462,6 +447,65 @@
         "internalType": "contract IHats",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_alloAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_strategy",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_strategyFactory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_hatsContractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_managerHatID",
+        "type": "uint256"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -505,21 +549,17 @@
         "internalType": "address",
         "name": "_recipient",
         "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
       }
     ],
     "name": "registerProject",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "profileId",
-        "type": "bytes32"
-      }
-    ],
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -539,6 +579,84 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "newAlloAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setAlloAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newHatsContractAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setHatsContractAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newManagerHatID",
+        "type": "uint256"
+      }
+    ],
+    "name": "setManagerHatID",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newStrategy",
+        "type": "address"
+      }
+    ],
+    "name": "setStrategyAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newStrategyFactory",
+        "type": "address"
+      }
+    ],
+    "name": "setStrategyFactoryAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_newPercentage",
+        "type": "uint8"
+      }
+    ],
+    "name": "setThresholdPercentage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "_projectId",
         "type": "bytes32"
@@ -550,6 +668,37 @@
       }
     ],
     "name": "supplyProject",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "upgradeToAndCall",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"

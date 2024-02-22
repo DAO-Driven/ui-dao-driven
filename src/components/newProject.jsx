@@ -32,7 +32,7 @@ function CircularProgressWithLabel(props) {
           {...props} 
           size={50}
           thickness={4}
-          sx={{ position: 'relative', display: 'inline-flex', color:"#693D8F"}}
+          sx={{ position: 'relative', display: 'inline-flex', color:"#695E93"}}
         />
         <Box
           sx={{
@@ -119,11 +119,13 @@ export const NewProjectTable = () => {
 
                         const projectHasPool = await managerContract.methods.getProjectPool(id).call();
 
+                        const projectData = await managerContract.methods.getProfile(id).call();
+
                         if (!Number(projectHasPool)){
 
                             awaitingProfiles.push({ 
                                 id: id, 
-                                name: supply.name, 
+                                name: projectData.name, 
                                 description: supply.description, 
                                 need: web3Instance.utils.fromWei(supply.need, 'ether'),
                                 has: web3Instance.utils.fromWei(supply.has, 'ether'),
@@ -188,7 +190,7 @@ export const NewProjectTable = () => {
                                 paddingBottom: 2, 
                                 // fontWeight: 'bold',
                                 fontFamily: "FaunaRegular",
-                                color: "black"
+                                color: "#695E93"
                             }}
                         >
                             Projects that are awaiting investors
@@ -197,13 +199,13 @@ export const NewProjectTable = () => {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Token</TableCell>
+                                            <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Token</TableCell>
 
-                                            <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Name</TableCell>
-                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Executors</TableCell>
-                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Managers</TableCell>
-                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell>
-                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Funds Raised</TableCell>
+                                            <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Name</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Executors</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Managers</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Required Funding</TableCell>
+                                            <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Funds Raised</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -232,9 +234,9 @@ export const NewProjectTable = () => {
                                                 <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
                                                     {profile.name}
                                                 </TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{1}</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.managers.length}</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>{profile.need} ETH</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{1}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.managers.length}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.need} ETH</TableCell>
                                                 <TableCell align="right" sx={{ fontFamily: "FaunaRegular" }}>
                                                     {/* {profile.has} ETH */}
                                                     <CircularProgressWithLabel value={calculateProgress(profile)} />

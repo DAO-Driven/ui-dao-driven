@@ -51,8 +51,14 @@ export const FinishedProjects = () => {
                             if (strategyState == 2 || strategyState == 3){
 
                                 const supply = await managerContract.methods.getProjectSupply(project).call();
+                                const projectData = await managerContract.methods.getProfile(project).call();
 
-                                activeProjects.push({ id: project, name: supply.name, description: supply.description, state: strategyState});
+                                activeProjects.push({ 
+                                    id: project, 
+                                    name: projectData.name, 
+                                    description: supply.description, 
+                                    state: strategyState
+                                });
                             }
                         }
                     }))
