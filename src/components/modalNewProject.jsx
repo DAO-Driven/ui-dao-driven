@@ -83,6 +83,7 @@ export const Modal = ({ setShowModal }) => {
 
         try {
 
+            const web3Instance = new Web3(window.ethereum);
             const managerContract = new web3.eth.Contract(ManagerContractABI, managerContractAddress);         
             const nonce = await web3.eth.getTransactionCount(accounts[0], 'latest');
 
@@ -99,14 +100,16 @@ export const Modal = ({ setShowModal }) => {
                 ).encodeABI()
             };
 
+            const estimatedGas = await web3Instance.eth.estimateGas(tx);
+            const gasLimit = Math.floor(Number(estimatedGas) * 1.1);
+            tx.gas = gasLimit;
+
             // // Send the transaction
             const sentTx = await web3.eth.sendTransaction(tx);
             const txReceipt = await web3.eth.getTransactionReceipt(sentTx.transactionHash);
 
-            // console.log("========> txReceipt <===========")
-            // console.log(txReceipt)
-            // console.log(typeof txReceipt.blockNumber); // Check the type
-            // console.log(txReceipt.blockNumber); // Check the value
+            console.log("========> txReceipt <===========")
+            console.log(txReceipt)
 
 
             const eventName = "ProjectRegistered"; // Ensure this matches the actual event name in your contract

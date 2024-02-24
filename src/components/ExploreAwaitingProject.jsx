@@ -109,45 +109,58 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     
 
     const handleSendFunds = async () => {
-
         setLoading(true);
-
-        if (amountToSend > 0){
-
-            const managerContract = new web3.eth.Contract(ManagerContractABI, managerContractAddress);
-            const amountInWei = web3.utils.toWei(amountToSend, 'ether');
+    
+        if (amountToSend > 0) {
+            const web3Instance = new Web3(window.ethereum); // Ensure web3Instance is initialized correctly
+            const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
+            const amountInWei = web3Instance.utils.toWei(amountToSend.toString(), 'ether');
             
             try {
-
-                const txReceipt = await managerContract.methods.supplyProject(profileId, amountInWei).send({ 
-                    from: accounts[0], 
-                    value: amountInWei 
-                });
-        
+                const nonce = await web3Instance.eth.getTransactionCount(accounts[0], 'latest');
+    
+                // Prepare the transaction object for sending funds
+                const tx = {
+                    from: accounts[0],
+                    to: managerContractAddress, // Assuming you're sending ETH to the manager contract directly
+                    nonce: web3Instance.utils.toHex(nonce),
+                    value: amountInWei, // Value in Wei to send
+                    data: managerContract.methods.supplyProject(profileId, amountInWei).encodeABI() // Encoded ABI of the function call
+                };
+    
+                // Estimate gas for the transaction
+                const estimatedGas = await web3Instance.eth.estimateGas(tx);
+                const gasLimit = Math.floor(Number(estimatedGas) * 1.1);
+                tx.gas = gasLimit;
+    
+                // Send the transaction
+                const sentTx = await web3Instance.eth.sendTransaction(tx);
+                const txReceipt = await web3Instance.eth.getTransactionReceipt(sentTx.transactionHash);
+    
+                console.log("========> txReceipt <===========");
+                console.log(txReceipt);
+    
+                // Post-transaction logic (assuming it's still relevant)
                 const supply = await managerContract.methods.getProjectSupply(profileId).call();
                 setprojecData(supply);
-
-                const progress = calculateProgress(supply, web3);
+                const progress = calculateProgress(supply, web3Instance); // Ensure calculateProgress works with web3Instance
                 setProjctProgress(progress);
-
                 setFundetAmount(amountToSend);
                 setprojecData(supply);
-
+    
                 const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
-                // console.log("===== Project Suppliers")
-                // console.log(projectSuppliers)
-                setProjectSuppliers(projectSuppliers)
-
+                setProjectSuppliers(projectSuppliers);
+    
             } catch (error) {
                 console.error("Error sending funds:", error);
                 alert("Error in sending funds. See console for details.");
             }
-
         }
-
-        setAmountToSend(0)
+    
+        setAmountToSend(0);
         setLoading(false);
-    }
+    };
+    
 
     function calculateProgress(projectData, web3Instance) {
         const need = projectData.need;

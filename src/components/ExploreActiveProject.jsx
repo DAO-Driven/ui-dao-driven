@@ -199,6 +199,9 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
 
                 try {
 
+                    console.log("=====> profileId")
+                    console.log(profileId)
+
                     const strategyAddress = await managerContract.methods.getProjectStrategy(profileId).call();
                     // console.log("=====> strategyAddress")
                     // console.log(strategyAddress)

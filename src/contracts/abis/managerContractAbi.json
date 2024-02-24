@@ -159,6 +159,25 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "projectId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newNeeds",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProjectNeedsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": false,
         "internalType": "bytes32",
         "name": "projectId",
@@ -431,7 +450,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ManagerUpgradeble.ProjectSupply",
+        "internalType": "struct Manager.ProjectSupply",
         "name": "",
         "type": "tuple"
       }
@@ -681,6 +700,24 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_projectId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_needs",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateProjectNeeds",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

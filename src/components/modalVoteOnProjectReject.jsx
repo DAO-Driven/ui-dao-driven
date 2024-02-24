@@ -47,6 +47,13 @@ export const RejectStrategyVoteModal = ({ setSuppliersRejectVotes, setOfferMiles
                 ).encodeABI()
             };
 
+            const estimatedGas = await web3Instance.eth.estimateGas(tx);
+            // console.log("==========> SUPPLIER REVIEW MILESTONE ESITMATED GAS LIMIT")
+            // console.log(estimatedGas)
+
+            const gasLimit = Math.floor(Number(estimatedGas) * 1.1);
+            tx.gas = gasLimit;
+
             const sentTx = await web3Instance.eth.sendTransaction(tx);
             const txReceipt = await web3Instance.eth.getTransactionReceipt(sentTx.transactionHash);
             // console.log("========> Reject project txReceipt <===========")

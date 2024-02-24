@@ -1,14 +1,16 @@
 {
   "files": {
     "main.css": "/ui-dao-driven/static/css/main.ae679ba8.css",
-    "main.js": "/ui-dao-driven/static/js/main.f7c51d0e.js",
+    "main.js": "/ui-dao-driven/static/js/main.29ca1b01.js",
+    "static/media/ether.jpeg": "/ui-dao-driven/static/media/ether.edee12098ff46718a822.jpeg",
     "static/media/telegram-icon.png": "/ui-dao-driven/static/media/telegram-icon.0c26cf26616b77bbd71c.png",
+    "static/media/arbitrum-logo.webp": "/ui-dao-driven/static/media/arbitrum-logo.0f505e69041b930a418a.webp",
     "index.html": "/ui-dao-driven/index.html",
     "main.ae679ba8.css.map": "/ui-dao-driven/static/css/main.ae679ba8.css.map",
-    "main.f7c51d0e.js.map": "/ui-dao-driven/static/js/main.f7c51d0e.js.map"
+    "main.29ca1b01.js.map": "/ui-dao-driven/static/js/main.29ca1b01.js.map"
   },
   "entrypoints": [
     "static/css/main.ae679ba8.css",
-    "static/js/main.f7c51d0e.js"
+    "static/js/main.29ca1b01.js"
   ]
 }
