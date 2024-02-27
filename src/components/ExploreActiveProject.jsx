@@ -199,8 +199,8 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
 
                 try {
 
-                    console.log("=====> profileId")
-                    console.log(profileId)
+                    // console.log("=====> profileId")
+                    // console.log(profileId)
 
                     const strategyAddress = await managerContract.methods.getProjectStrategy(profileId).call();
                     // console.log("=====> strategyAddress")
@@ -245,14 +245,18 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                     setOfferedMilestones(offeeredMilestones);
 
                     const milestones = await ExecutorSupplierVotingStrategy.methods.getMilestones(projectExecutor).call();
-                    console.log("=====> Milestones")
-                    console.log(milestones)
+                    // console.log("=====> Milestones")
+                    // console.log(milestones)
                     setProjectMilestones(milestones)
 
                     const strategyTotalSupply = Number(await ExecutorSupplierVotingStrategy.methods.totalSupply().call());
                     // console.log("=====> strategyTotalSupply")
                     // console.log(strategyTotalSupply)
                     setTotalSupply(strategyTotalSupply)
+
+                    const projectHasPool = await managerContract.methods.getProjectPool(profileId).call();
+                    console.log("::::::::ALLO V2 POOL:", projectHasPool)
+
 
                     if (milestones.length){
 

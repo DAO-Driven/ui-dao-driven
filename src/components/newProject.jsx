@@ -51,7 +51,8 @@ function CircularProgressWithLabel(props) {
             component="div"
             color="text.secondary"
             sx={{
-              fontSize: '1.5rem', // Adjust the font size as needed
+              fontSize: '1.25rem', // Adjust the font size as needed
+              fontFamily: "FaunaRegular",
             }}
           >{`${Math.round(props.value)}%`}</Typography>
         </Box>
@@ -78,6 +79,8 @@ export const NewProjectTable = () => {
     const [showExploreAwaitinProjectModal, setExploreAwaitinProjectModal] = useState(false);
     const [profilesData, setProfilesData] = useState([]);
     const [selectedProfileId, setSelectedProfileId] = useState(null);
+    const [isRecipient, setIsRecipient] = useState(null);
+    const [isManager, setIsManager] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const openModal = () => {
@@ -87,6 +90,48 @@ export const NewProjectTable = () => {
     const openExploreAwaitinProjectModal = (profileId) => {
         setSelectedProfileId(profileId);
         setExploreAwaitinProjectModal(current => !current);
+    };
+
+    const isRecipientLabel = () => {
+
+        if (isRecipient){
+            return (
+                <span style={{
+                    color: '#BEAFC2',
+                    border: '1px solid #BEAFC2', 
+                    padding: '2px 4px', 
+                    borderRadius: '4px', 
+                    fontFamily: "RaxtorRegular",
+                    marginRight: "10px",
+                    fontSize: "11px"
+                }}>
+                    you
+                </span>
+            );
+        }
+        else    
+            return "";
+    };
+
+    const isManagerLabel = () => {
+
+        if (isManager){
+            return (
+                <span style={{
+                    color: '#BEAFC2',
+                    border: '1px solid #BEAFC2', 
+                    padding: '2px 4px', 
+                    borderRadius: '4px', 
+                    fontFamily: "RaxtorRegular",
+                    marginRight: "10px",
+                    fontSize: "7px"
+                }}>
+                    you
+                </span>
+            );
+        }
+        else    
+            return "";
     };
 
 
@@ -101,9 +146,12 @@ export const NewProjectTable = () => {
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
 
                 try {
+
+                    const fetchedAccounts = await web3Instance.eth.getAccounts();
+                    const address = fetchedAccounts[0];
                     const profileIds = await managerContract.methods.getProfiles().call();
-                    // console.log("===== Profiles ")
-                    // console.log(profileIds)
+                    console.log("===== Profiles ")
+                    console.log(profileIds)
 
                     const awaitingProfiles = [];
 
@@ -116,6 +164,7 @@ export const NewProjectTable = () => {
                         const projectSuppliers = await managerContract.methods.getProjectSuppliers(id).call();
                         // console.log("===== Project Suppliers")
                         // console.log(projectSuppliers)
+    
 
                         const projectHasPool = await managerContract.methods.getProjectPool(id).call();
 
@@ -123,13 +172,24 @@ export const NewProjectTable = () => {
 
                         if (!Number(projectHasPool)){
 
+                            const projectExecutor = await managerContract.methods.getProjectExecutor(id).call();
+
+                            if (projectSuppliers.length && projectSuppliers.find(address=> address == address)) {
+                                console.log("========== MANAGER DETECTED:", address, "SUPPL:", projectSuppliers.length)
+                                setIsManager(true);
+                            }
+                            if (address === projectExecutor) {
+                                // console.log("========== RECIPIENT DETECTED:", address)
+                                setIsRecipient(true);
+                            }
+
                             awaitingProfiles.push({ 
                                 id: id, 
                                 name: projectData.name, 
                                 description: supply.description, 
                                 need: web3Instance.utils.fromWei(supply.need, 'ether'),
                                 has: web3Instance.utils.fromWei(supply.has, 'ether'),
-                                managers: projectSuppliers
+                                managers: projectSuppliers,
                             })
                         }
                     }));
@@ -234,8 +294,12 @@ export const NewProjectTable = () => {
                                                 <TableCell component="th" scope="row" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#693D8F" }}>
                                                     {profile.name}
                                                 </TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{1}</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.managers.length}</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
+                                                    { isRecipientLabel()}{1}
+                                                </TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
+                                                    {isManagerLabel()}{profile.managers.length}
+                                                </TableCell>
                                                 <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{profile.need} ETH</TableCell>
                                                 <TableCell align="right" sx={{ fontFamily: "FaunaRegular" }}>
                                                     {/* {profile.has} ETH */}

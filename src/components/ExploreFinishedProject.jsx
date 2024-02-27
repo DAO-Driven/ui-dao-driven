@@ -221,7 +221,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
 
                     const strategyTotalSupply = Number(await ExecutorSupplierVotingStrategy.methods.totalSupply().call());
                     // console.log("=====> strategyTotalSupply")
-                    console.log(strategyTotalSupply)
+                    // console.log(strategyTotalSupply)
                     setTotalSupply(strategyTotalSupply)
 
                     if (milestones.length){

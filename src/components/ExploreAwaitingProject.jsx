@@ -58,8 +58,9 @@ function CircularProgressWithLabel(props) {
                     component="div"
                     color="text.secondary"
                     sx={{
-                        fontSize: '4rem', // Adjust the font size as needed
-                        color:"#BEAFC2"
+                        fontSize: '3rem', // Adjust the font size as needed
+                        color:"#BEAFC2",
+                        fontFamily: "FaunaRegular"
                     }}
                 >{`${Math.round(completed)}%`}</Typography>
             </Box>
@@ -95,7 +96,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     
         try {
             const txReceipt = await managerContract.methods.revokeProjectSupply(profileId).send({ from: accounts[0] });
-            console.log("Transaction Receipt:", txReceipt);
+            // console.log("Transaction Receipt:", txReceipt);
 
             setRevoked(true);
     
@@ -107,6 +108,42 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
         setLoading(false);
     };
     
+    const isRecipientLabel = () => {
+
+        if (projecExecutor){
+            return (
+                <span style={{
+                    color: '#BEAFC2',
+                    border: '1px solid #BEAFC2', 
+                    padding: '2px 4px', 
+                    borderRadius: '4px', 
+                    fontFamily: "RaxtorRegular",
+                    marginRight: "10px",
+                    fontSize: "11px"
+                }}>
+                    you
+                </span>
+            );
+        }
+        else    
+            return "";
+    };
+
+    const isManagerLabel = () => {
+        return (
+            <span style={{
+                color: '#BEAFC2',
+                border: '1px solid #BEAFC2', 
+                padding: '2px 4px', 
+                borderRadius: '4px', 
+                fontFamily: "RaxtorRegular",
+                marginRight: "10px",
+                fontSize: "7px"
+            }}>
+                you
+            </span>
+        );
+    };
 
     const handleSendFunds = async () => {
         setLoading(true);
@@ -137,8 +174,8 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                 const sentTx = await web3Instance.eth.sendTransaction(tx);
                 const txReceipt = await web3Instance.eth.getTransactionReceipt(sentTx.transactionHash);
     
-                console.log("========> txReceipt <===========");
-                console.log(txReceipt);
+                // console.log("========> txReceipt <===========");
+                // console.log(txReceipt);
     
                 // Post-transaction logic (assuming it's still relevant)
                 const supply = await managerContract.methods.getProjectSupply(profileId).call();
@@ -202,13 +239,12 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                 setProjctProgress(progress);
 
                 const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
-                console.log("===== Project Suppliers")
-                console.log(projectSuppliers)
+                // console.log("===== Project Suppliers")
+                // console.log(projectSuppliers)
                 setProjectSuppliers(projectSuppliers)
 
-
                 const isSupplier = projectSuppliers.find(supplier=> supplier == fetchedAccounts[0]);
-                console.log("===== IS Supplier:", isSupplier);
+                // console.log("===== IS Supplier:", isSupplier);
 
                 setisSupplier(isSupplier)
 
@@ -406,7 +442,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
-                                                {projecExecutor}
+                                            { projecExecutor == accounts[0] ? isRecipientLabel() : ""}{projecExecutor}
                                             </TableCell>
                                             {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
                                                 {web3.utils.fromWei(projecData.need, 'ether')} ETH
@@ -437,7 +473,9 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
                                     <TableBody>
                                         {projectSuppliers.map((manager) => (
                                             <TableRow>
-                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>{manager}</TableCell>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
+                                                   {manager == accounts[0] ? isManagerLabel() : ""} {manager}
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

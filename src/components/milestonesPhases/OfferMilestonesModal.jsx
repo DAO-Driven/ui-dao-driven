@@ -97,8 +97,8 @@ export const OfferMilestones = ({ setShowModal, setOfferMilestonesModalClosed, p
             };
 
             const estimatedGas = await web3Instance.eth.estimateGas(tx);
-            console.log("==========> OFFER MILESTONE ESITMATED GAS LIMIT")
-            console.log(estimatedGas)
+            // console.log("==========> OFFER MILESTONE ESITMATED GAS LIMIT")
+            // console.log(estimatedGas)
 
             const gasLimit = Math.floor(Number(estimatedGas) * 1.1);
             tx.gas = gasLimit;
