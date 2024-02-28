@@ -359,7 +359,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                             </button>
                         </div>
                         <div>
-                            <h3 style={h3Style}>{projectData.name}</h3>
+                            <h3 style={h3Style}>{projectInfo ? projectInfo.name : 'loading..'}</h3>
                             <p style={pStyle}>{projectData.description}</p>
                             <p style={pStyle}>Project's Strategy state: {milestoneStatusLabel(strategyState)}</p>
 
