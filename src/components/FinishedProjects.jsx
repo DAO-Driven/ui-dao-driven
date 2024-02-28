@@ -14,6 +14,8 @@ import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
@@ -22,6 +24,8 @@ export const FinishedProjects = () => {
     const [profilesData, setProfilesData] = useState([]);
     const [selectedProfileId, setSelectedProfileId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = React.useState(true);
+
 
     useEffect(() => {
 
@@ -73,7 +77,7 @@ export const FinishedProjects = () => {
             }
         };
 
-        initWeb3().finally(() => setLoading(false));
+        initWeb3().finally(() => {setLoading(false); setOpenBackdrop(false)});
     }, []);
 
     const milestoneStatusLabel = (status) => {
@@ -130,9 +134,12 @@ export const FinishedProjects = () => {
             {!selectedProfileId && (
                 <div>
                     {loading ? (
-                        <div style={loadingBarContainerStyle}>
-                            <div className="loader"></div>
-                        </div>
+                         <Backdrop
+                            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={openBackdrop}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
                     ) : (
                         <div className='row'>
                             <div className='col-md-12' style={contentStyle}>

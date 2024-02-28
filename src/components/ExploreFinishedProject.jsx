@@ -4,6 +4,16 @@ import ManagerContractABI from '../contracts/abis/managerContractAbi.json';
 import ExecutorSupplierVotingStrategyABI from '../contracts/abis/ExecutorSupplierVotingStrategyAbi.json';
 import {MilestonesProgressBar} from "./MilesonesProgressBar";
 import { ProgressBarVotes } from "./milestonesPhases/ProgressBarVotes"
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
 
@@ -21,6 +31,12 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
     const [loading, setLoading] = useState(false);
     const [fundsSent, setFundsSent] = useState(false);
     const [totalSupply, setTotalSupply] = useState(null);
+    const [openBackdrop, setOpenBackdrop] = React.useState(true);
+    const [projectInfo, setprojectInfo] = useState(null);
+    const [projecExecutor, setpPojecExecutor] = useState(null);
+    const [poolID, setPoolID] = useState(0);
+    const [accounts, setAccounts] = useState(null);
+    const [projectSuppliers, setProjectSuppliers] = useState([]);
 
 
     const handleSendFunds = async () => {
@@ -165,12 +181,34 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
             );
         }
     };
-    
+
+    const youLabel = () => {
+
+        if (projecExecutor){
+            return (
+                <span style={{
+                    color: '#BEAFC2',
+                    border: '1px solid #BEAFC2', 
+                    padding: '2px 4px', 
+                    borderRadius: '4px', 
+                    fontFamily: "RaxtorRegular",
+                    marginRight: "10px",
+                    fontSize: "11px"
+                }}>
+                    you
+                </span>
+            );
+        }
+        else    
+            return "";
+    };
     
     useEffect(() => {
         const initWeb3 = async () => {
             if (window.ethereum) {
                 const web3Instance = new Web3(window.ethereum);
+                const fetchedAccounts = await web3Instance.eth.getAccounts();
+                setAccounts(fetchedAccounts);
 
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
 
@@ -203,6 +241,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                     const projectExecutor = await managerContract.methods.getProjectExecutor(profileId).call();
                     // console.log("===== Project Executor")
                     // console.log(projectExecutor)
+                    setpPojecExecutor(projectExecutor);
 
                     const offeeredMilestones = await ExecutorSupplierVotingStrategy.methods.getOffeeredMilestones(projectExecutor).call();
                     // console.log("=====> Offeered Milestones")
@@ -223,6 +262,19 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                     // console.log("=====> strategyTotalSupply")
                     // console.log(strategyTotalSupply)
                     setTotalSupply(strategyTotalSupply)
+
+                    const projectData = await managerContract.methods.getProfile(profileId).call();
+                    console.log("====== PROJECT DATA")
+                    console.log(projectData)
+                    setprojectInfo(projectData);
+
+                    const projectHasPool = await managerContract.methods.getProjectPool(profileId).call();
+                    setPoolID(Number(projectHasPool));
+
+                    const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
+                    // console.log("===== Project Suppliers")
+                    // console.log(projectSuppliers)
+                    setProjectSuppliers(projectSuppliers)
 
                     if (milestones.length){
 
@@ -263,6 +315,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
             }
 
             setIsDataLoaded(true);
+            setOpenBackdrop(false);
         };
 
         initWeb3();
@@ -287,6 +340,14 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
     return (
         <div>
             <div className='row'>
+                {(
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={openBackdrop}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                )}
                 {(projectData) && (
                     <div className='col-md-12' style={contentStyle}>
                         <div style={buttonContainerStyle}>
@@ -420,38 +481,162 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                     </div>
                                 )
                             }
-                             {loading ? (
-                                <div style={loadingBarContainerStyle}>
-                                    <div className="loader"></div>
-                                </div>
-                            ) : (
-                            <>
-                                {fundsSent ? (
-                                        <>
-                                            <p style={thanksgivingSentStyle}>Thank you for your support of the project's suppliers. They will greatly appreciate receiving your positive feedback and acknowledgment of their contributions 🎉🎉🎉</p>
-                                        </>
-                                    )
-                                :
-                                (
-                                    <>
-                                        <p style={thanksgivingStyle}>Everyone is invited to express their gratitude to the suppliers who have been instrumental in advancing this project. Any contributions made as a token of thanks will be equitably distributed among the suppliers in proportion to their respective contributions to the funding.</p>
-                                        <div>
-                                            <input 
-                                                id="amount" 
-                                                style={inputStyle} 
-                                                value={amountToSend} 
-                                                onChange={(e) => setAmountToSend(e.target.value)} 
-                                            />
-                                            <button style={buttonContentStyle} onClick={handleSendFunds}>
-                                                Send Funds
-                                            </button>
-                                        </div>
-                                    </>
-                                )
-                            }
-                            </>
+                            {projectInfo && (
+
+                                <>
+
+                                    <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            // borderRadius: '25px', 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 15,
+                                            borderTopRightRadius: 15,
+                                            borderBottomLeftRadius: 3,
+                                            borderBottomRightRadius: 3,
+                                            marginTop: '20px',
+                                            marginBottom: '10px',
+                                        }}
+                                    >
+                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Project description:</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                                        <a
+                                                            href={projectInfo.metadata.pointer}
+                                                            target="_blank" // This ensures the link opens in a new tab
+                                                            rel="noopener noreferrer" // Security measure for links that open a new tab
+                                                            
+                                                            >
+                                                            {projectInfo.metadata.pointer}
+                                                        </a>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            // borderRadius: '25px', 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 3,
+                                            borderTopRightRadius: 3,
+                                            borderBottomLeftRadius: 3,
+                                            borderBottomRightRadius: 3,
+                                            marginBottom: '10px',
+                                        }}
+                                    >
+                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                        Allo-V2 Registry Profile ID:
+                                                    </TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                        Allo-V2 Pool Nr:
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                        {profileId}
+                                                    </TableCell>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                        {poolID}
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                    <TableContainer component={Paper} sx={{ borderRadius: '5px', overflow: 'hidden', mb: 2 }}>
+                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Recipients:</TableCell>
+                                                    {/* <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Required Funding</TableCell> */}
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
+                                                    { projecExecutor == accounts[0] ? youLabel() : ""}{projecExecutor}
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                    <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            // borderRadius: '25px', 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 3,
+                                            borderTopRightRadius: 3,
+                                            borderBottomLeftRadius: 15,
+                                            borderBottomRightRadius: 15,
+                                            marginBottom: '50px',
+                                        }}
+                                    >
+                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>Managers:</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {projectSuppliers.map((manager) => (
+                                                    <TableRow>
+                                                        <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93" }}>
+                                                        {manager == accounts[0] ? youLabel() : ""} {manager}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </>
                             )}
+
+                            {
+                                <>
+                                    {fundsSent ? (
+                                                <>
+                                                    <p style={thanksgivingSentStyle}>Thank you for your support of the project's suppliers. They will greatly appreciate receiving your positive feedback and acknowledgment of their contributions 🎉🎉🎉</p>
+                                                </>
+                                            )
+                                        :
+                                        (
+                                            <>
+                                                <p style={thanksgivingStyle}>Everyone is invited to express their gratitude to the suppliers who have been instrumental in advancing this project. Any contributions made as a token of thanks will be equitably distributed among the suppliers in proportion to their respective contributions to the funding.</p>
+                                                <div>
+                                                    <input 
+                                                        id="amount" 
+                                                        style={inputStyle} 
+                                                        value={amountToSend} 
+                                                        onChange={(e) => setAmountToSend(e.target.value)} 
+                                                    />
+                                                    <button style={buttonContentStyle} onClick={handleSendFunds}>
+                                                        Send Funds
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )
+                                    }
+                                </>
+                            }
                         </div>
+
+                        
+
                     </div>
                 )}
             </div>

@@ -17,9 +17,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import CircularProgress, {
-    CircularProgressProps,
-} from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
 
@@ -82,6 +81,7 @@ export const NewProjectTable = () => {
     const [isRecipient, setIsRecipient] = useState(null);
     const [isManager, setIsManager] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = React.useState(true);
 
     const openModal = () => {
         setShowModal(current => !current);
@@ -205,7 +205,7 @@ export const NewProjectTable = () => {
             }
         };
     
-        initWeb3().finally(() => setLoading(false));
+        initWeb3().finally(() => {setLoading(false); setOpenBackdrop(false)});
     }, [showExploreAwaitinProjectModal, showModal]);
 
     return (
@@ -238,9 +238,12 @@ export const NewProjectTable = () => {
                 </Box>
 
                 {loading ? (
-                    <div style={loadingBarContainerStyle}>
-                        <div className="loader"></div>
-                    </div>
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={openBackdrop}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
                 ) : (
                     <div className='row'>
                         <div className='col-md-12' style={contentStyle}>

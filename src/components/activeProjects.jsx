@@ -17,9 +17,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import CircularProgress, {
-    CircularProgressProps,
-} from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
@@ -28,6 +27,7 @@ export const ActiveProjects = () => {
     const [profilesData, setProfilesData] = useState([]);
     const [selectedProfileId, setSelectedProfileId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = React.useState(true);
 
     useEffect(() => {
 
@@ -81,7 +81,7 @@ export const ActiveProjects = () => {
             }
         };
 
-        initWeb3().finally(() => setLoading(false));
+        initWeb3().finally(() => {setLoading(false); setOpenBackdrop(false)});
     }, [setSelectedProfileId]);
 
     return (
@@ -95,9 +95,12 @@ export const ActiveProjects = () => {
             )}
 
             {loading ? (
-                <div style={loadingBarContainerStyle}>
-                    <div className="loader"></div>
-                </div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={openBackdrop}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             ) : (
                 <> 
                     {!selectedProfileId && (

@@ -68,7 +68,6 @@ function CircularProgressWithLabel(props) {
     );
 }
 
-
 export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
 
     // const isMobile = (window.innerWidth <= 768);
