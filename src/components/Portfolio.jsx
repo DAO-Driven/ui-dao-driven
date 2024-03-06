@@ -38,7 +38,7 @@ export const Portfolio_ = () => {
   };
 
   const handleBreadcrumbClick = (index) => {
-    console.info(`You clicked breadcrumb at index ${index}.`);
+    // console.info(`You clicked breadcrumb at index ${index}.`);
     // Logic to handle breadcrumb click
     setActiveIndex(index);
   };

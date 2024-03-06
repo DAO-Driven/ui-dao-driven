@@ -150,8 +150,8 @@ export const NewProjectTable = () => {
                     const fetchedAccounts = await web3Instance.eth.getAccounts();
                     const address = fetchedAccounts[0];
                     const profileIds = await managerContract.methods.getProfiles().call();
-                    console.log("===== Profiles ")
-                    console.log(profileIds)
+                    // console.log("===== Profiles ")
+                    // console.log(profileIds)
 
                     const awaitingProfiles = [];
 
