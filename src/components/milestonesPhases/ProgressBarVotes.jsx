@@ -1,7 +1,7 @@
 export const ProgressBarVotes = ({ completed, label, color }) => {
     const containerStyles = {
         height: 20,
-        width: '100%',
+        width: '97%',
         backgroundColor: "white",
         border: '1px solid #e0e0de',
         borderRadius: 50,

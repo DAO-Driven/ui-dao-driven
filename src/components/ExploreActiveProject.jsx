@@ -103,11 +103,11 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
 
     const calculatePhaseOneMilestones = () => {
         if (offeredMilestones.length && projectMilestones.length)
-            return {progress: 100, info: "Milestones Confirmed"};
+            return {progress: 100, info: "Confirmed"};
         else if (offeredMilestones.length)
-            return {progress: 50, info: "Awaiting Milestones Review"};
+            return {progress: 50, info: "Awaiting Review"};
         else    
-            return {progress: 0, info: "Awaiting Milestones Offer"}; 
+            return {progress: 0, info: "Awaiting Offer"}; 
     }
 
     const calculateVotesPercentage = (totalValue, partialValue) => {
@@ -384,8 +384,12 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                     borderTopRightRadius: 15,
                                     borderBottomLeftRadius: 3,
                                     borderBottomRightRadius: 3,
-                                    marginTop: '20px',
+                                    marginTop: '50px',
                                     marginBottom: '10px',
+                                    maxWidth: "90%",
+                                    marginLeft: 'auto', // Adjust for centering
+                                    marginRight: 'auto', // Adjust for centering
+                                    display: 'block', // 
                                 }}
                             >
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -420,6 +424,10 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                     borderBottomLeftRadius: 3,
                                     borderBottomRightRadius: 3,
                                     marginBottom: '10px',
+                                    maxWidth: "90%",
+                                    marginLeft: 'auto', // Adjust for centering
+                                    marginRight: 'auto', // Adjust for centering
+                                    display: 'block', // 
                                 }}
                             >
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -446,7 +454,18 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                 </Table>
                             </TableContainer>
 
-                            <TableContainer component={Paper} sx={{ borderRadius: '5px', overflow: 'hidden', mb: 2 }}>
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{
+                                    borderRadius: '5px', 
+                                    overflow: 'hidden', 
+                                    mb: 2,
+                                    maxWidth: "90%",
+                                    marginLeft: 'auto', // Adjust for centering
+                                    marginRight: 'auto', // Adjust for centering
+                                    display: 'block', // 
+                                }}
+                            >
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
@@ -474,6 +493,10 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                     borderBottomLeftRadius: 15,
                                     borderBottomRightRadius: 15,
                                     marginBottom: '50px',
+                                    maxWidth: "90%",
+                                    marginLeft: 'auto', // Adjust for centering
+                                    marginRight: 'auto', // Adjust for centering
+                                    display: 'block', // 
                                 }}
                             >
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -494,10 +517,37 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                 </Table>
                             </TableContainer>
 
-                            <div style={progressBarContainerStyle}>
-                                <p style={fundingStyle}>status: {calculatePhaseOneMilestones().info}</p>
-                                <MilestonesProgressBar completed={calculatePhaseOneMilestones().progress}/>
-                            </div>
+                            <TableContainer 
+                                component={Paper} 
+                                sx={{ 
+                                    overflow: 'hidden',
+                                    borderTopLeftRadius: 25,
+                                    borderTopRightRadius: 25,
+                                    borderBottomLeftRadius: 25,
+                                    borderBottomRightRadius: 25,
+                                    marginBottom: '10px',
+                                    maxWidth: "90%",
+                                    marginLeft: 'auto', // Adjust for centering
+                                    marginRight: 'auto', // Adjust for centering
+                                    display: 'block', // 
+                                }}
+                            >
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                Milestones status: {calculatePhaseOneMilestones().info}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                        <MilestonesProgressBar completed={calculatePhaseOneMilestones().progress}/>
+                                    </TableCell>
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
 
                             {
                                 (projectRejectVotesFor || projectRejectVotesAgainst) ? (
@@ -733,7 +783,7 @@ const contentStyle = {
     marginBottom: '20px',
     backgroundColor: '#FFFFFF',
     color: "#8155BA",
-    border: '1px solid black',
+    // border: '1px solid black',
     borderRadius: "15px",
     width: "100%",
     paddingTop: '30px',

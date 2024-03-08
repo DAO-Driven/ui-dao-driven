@@ -2,7 +2,7 @@ export const MilestonesProgressBar = ({ completed }) => {
     
     const containerStyles = {
         height: 20,
-        width: '80%',
+        width: '97%',
         backgroundColor: "white",
         border: `1px solid #b0b0b0`,
         borderRadius: 50,
