@@ -56,8 +56,8 @@ export const RejectStrategyVoteModal = ({ setSuppliersRejectVotes, setOfferMiles
 
             const sentTx = await web3Instance.eth.sendTransaction(tx);
             const txReceipt = await web3Instance.eth.getTransactionReceipt(sentTx.transactionHash);
-            // console.log("========> Reject project txReceipt <===========")
-            // console.log(txReceipt)
+            console.log("========> Reject project txReceipt <===========")
+            console.log(txReceipt)
 
             if (status == 2){
                 const strategyState = Number(await ExecutorSupplierVotingStrategy.methods.state().call());
@@ -79,6 +79,7 @@ export const RejectStrategyVoteModal = ({ setSuppliersRejectVotes, setOfferMiles
         catch(err){
             console.log("Error Project Rejecting");
             console.log(err);
+
             setSuppliersRejectVotes(false);
             setOfferMilestonesModalClosed(true)
         }

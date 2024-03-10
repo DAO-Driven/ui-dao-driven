@@ -139,7 +139,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                     padding: '2px 4px', // Add some padding inside the border
                     borderRadius: '4px', // Optional: to make the corners rounded
                 }}>
-                    Rejected
+                    Revoked
                 </span>
             );
         }
@@ -389,6 +389,84 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                 </Table>
                             </TableContainer>
 
+                            {
+                                (projectRejectVotesFor || projectRejectVotesAgainst) ? (
+
+
+                                    <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            // borderRadius: '25px', 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 3,
+                                            borderTopRightRadius: 3,
+                                            borderBottomLeftRadius: 3,
+                                            borderBottomRightRadius: 3,
+                                            marginBottom: '10px',
+                                            maxWidth: "90%",
+                                            marginLeft: 'auto', // Adjust for centering
+                                            marginRight: 'auto', // Adjust for centering
+                                            display: 'block', // 
+                                        }}
+                                    >
+                                        <Table aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                        Project revoking Votes
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+
+                                                <ProgressBarVotes 
+                                                    completed={calculateVotesPercentage(totalSupply, projectRejectVotesFor)}
+                                                    label={"For"}
+                                                    color={"#C70039"}
+                                                />
+                                                <ProgressBarVotes 
+                                                    completed={calculateVotesPercentage(totalSupply, projectRejectVotesAgainst)}
+                                                    label={"Against"}
+                                                    color={"#4caf50"}
+                                                />
+                                            </TableCell>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+
+
+
+
+                                    // <div style={milestonesFlexContainerStyle}>
+                                    //     <div style={progressBarVotesForContainerStyle}>
+                                    //         <p style={infoStyle}>Project revoking Votes</p>
+                                    //         <ProgressBarVotes 
+                                    //             completed={calculateVotesPercentage(totalSupply, projectRejectVotesFor)}
+                                    //             label={"For"}
+                                    //             color={"#C70039"}
+                                    //         />
+                                    //         <ProgressBarVotes 
+                                    //             completed={calculateVotesPercentage(totalSupply, projectRejectVotesAgainst)}
+                                    //             label={"Against"}
+                                    //             color={"#4caf50"}
+                                    //         />
+                                    //     </div>
+                                    // </div>
+                                )
+                                : (
+                                    <div style={infoStyle}>
+                                        <p></p>
+                                    </div>
+                                )
+                            }
+
+
+
+
+
+
                             <TableContainer 
                                 component={Paper} 
                                 sx={{ 
@@ -423,31 +501,6 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                             </TableContainer>
 
                             {
-                                (projectRejectVotesFor || projectRejectVotesAgainst) ? (
-                                    <div style={milestonesFlexContainerStyle}>
-                                        <div style={progressBarVotesForContainerStyle}>
-                                            <p style={infoStyle}>Reject Project Votes</p>
-                                            <ProgressBarVotes 
-                                                completed={calculateVotesPercentage(totalSupply, projectRejectVotesFor)}
-                                                label={"For"}
-                                                color={"#C70039"}
-                                            />
-                                            <ProgressBarVotes 
-                                                completed={calculateVotesPercentage(totalSupply, projectRejectVotesAgainst)}
-                                                label={"Against"}
-                                                color={"#4caf50"}
-                                            />
-                                        </div>
-                                    </div>
-                                )
-                                : (
-                                    <div style={infoStyle}>
-                                        <p></p>
-                                    </div>
-                                )
-                            }
-
-                            {
                                 (offeredMilestones.length && isDataLoaded) ? (
                                     
                                     <>
@@ -472,7 +525,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                         <Table aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
                                                         Defined Milestones
                                                     </TableCell>
                                                 </TableRow>
@@ -502,7 +555,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                                         <Table aria-label="simple table">
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
                                                                         Milestone {i + 1}
                                                                     </TableCell>
                                                                 </TableRow>
@@ -559,7 +612,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                                     <Table aria-label="simple table">
                                                         <TableHead>
                                                             <TableRow>
-                                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
                                                                     Milestones Defining Votes
                                                                 </TableCell>
                                                             </TableRow>
@@ -625,7 +678,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                         <Table aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
                                                         Submited Milestones
                                                     </TableCell>
                                                 </TableRow>
@@ -655,7 +708,7 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                                         <Table aria-label="simple table">
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
                                                                         {milestoneNameColor(Number(milestone.milestoneStatus), `Milestone ${i + 1}`)} {milestoneStatusLabel(Number(milestone.milestoneStatus))}
                                                                     </TableCell>
                                                                 </TableRow>

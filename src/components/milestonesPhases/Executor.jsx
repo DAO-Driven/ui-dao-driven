@@ -3,6 +3,21 @@ import Web3 from 'web3';
 import { OfferMilestones } from "./OfferMilestonesModal";
 import ExecutorSupplierVotingStrategyABI from '../../contracts/abis/ExecutorSupplierVotingStrategyAbi.json';
 import ManagerContractABI from '../../contracts/abis/managerContractAbi.json';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+
 const {managerContractAddress} = require('../../contracts/contractsAddresses.json');
 
 
@@ -129,12 +144,83 @@ export const Executor = ({ setOfferMilestonesModalClosed, projecExecutor, profil
             ) : (
             <div style={progressBarContainerStyle}>
                 {(isDataLoaded && !upcomingMilestone) && (
-                    <div>
-                        <p style={infoStyle}>As a holder of the Executor Hat, you have the authority to propose milestones for the project</p>
-                        <button className="regular-button" onClick={() => {setShowOfferMilestonesModal(true)}}>
-                            {offeredMilestones.length ? "Reoffer Milestones" : "Offer Milestones"}
-                        </button>
-                    </div>
+
+
+                    <TableContainer 
+                        component={Paper} 
+                        sx={{ 
+                            borderTopLeftRadius: 25,
+                            borderTopRightRadius: 25,
+                            borderBottomLeftRadius: 25,
+                            borderBottomRightRadius: 25, 
+                            overflow: 'hidden', 
+                            mb: 2,
+                            maxWidth: "80%",
+                            marginLeft: 'auto', // Adjust for centering
+                            marginRight: 'auto', // Adjust for centering
+                            display: 'block', // 
+                        }}
+                    >
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "orange" }}>! Action Required</TableCell>
+                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                        {/* <CircularProgressWithLabel value={calculateProgress(projecData, web3)} /> */}
+
+                                        <p style={thanksgivingStyle}>As a holder of the Executor Hat, you have the authority to propose milestones for the project</p>
+
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 0 }}>
+                                        
+                                        <Button
+                                            variant="contained"
+                                            sx={{ 
+                                                mt: 1, 
+                                                width: 250, 
+                                                height: '50px', 
+                                                backgroundColor: "#BEAFC2", 
+                                                '&:hover': { 
+                                                    backgroundColor: "#BEAFC2"
+                                                }, 
+                                                fontFamily: "FaunaRegular",
+                                                borderTopLeftRadius: 3,
+                                                borderTopRightRadius: 3,
+                                                borderBottomLeftRadius: 15,
+                                                borderBottomRightRadius: 15,
+                                                fontSize: '11px'
+                                            }}
+                                            // disabled={!Number(amountToSend)}
+                                            onClick={() => { setShowOfferMilestonesModal(true)}}
+                                        >
+                                            {offeredMilestones.length ? "Reoffer Milestones" : "Offer Milestones"}
+                                        </Button>
+                                    </Box>
+
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
+
+
+
+                    // <div>
+                    //     <p style={infoStyle}>As a holder of the Executor Hat, you have the authority to propose milestones for the project</p>
+                    //     <button className="regular-button" onClick={() => {setShowOfferMilestonesModal(true)}}>
+                    //         {offeredMilestones.length ? "Reoffer Milestones" : "Offer Milestones"}
+                    //     </button>
+                    // </div>
+
+
                 )}
                 {(isDataLoaded && upcomingMilestone && !submited && !pendingMilestone) && (
                     <div>
@@ -273,5 +359,20 @@ const loadingBarContainerStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     margin: '20px 0' // Gives space around the progress bar
+};
+
+const thanksgivingStyle = {
+    fontSize: '13px',
+    color: "695E93",
+    marginBottom: '10px',
+    fontFamily: "RaxtorRegular",
+    marginRight: '30px',
+    marginLeft: '30px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap', // Allows items to wrap onto multiple lines
+    gap: '20px' // Spacing between items
 };
 

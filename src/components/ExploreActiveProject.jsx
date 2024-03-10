@@ -262,13 +262,21 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                 const ExecutorSupplierVotingStrategy = new web3Instance.eth.Contract(ExecutorSupplierVotingStrategyABI, votingStrategyAddress);
 
                 try{
+
                     const rejectVotesFor = Number(await ExecutorSupplierVotingStrategy.methods.getRejectProjectVotesFor().call());
-                    // console.log("---> rejectVotesFor:", rejectVotesFor)
+                    console.log("---> rejectVotesFor:", rejectVotesFor)
                     setProjectRejectVotesFor(rejectVotesFor);
 
                     const rejectVotesAgainst = Number(await ExecutorSupplierVotingStrategy.methods.getRejectProjectVotesAgainst().call());
-                    // console.log("---> rejectVotesAgainst:", rejectVotesAgainst)
+                    console.log("---> rejectVotesAgainst:", rejectVotesAgainst)
                     setProjectRejectVotesAgainst(rejectVotesAgainst);
+
+                    console.log("::::::: rejectManagerVotes for Account:", fetchedAccounts[0]);
+
+                    const rejectManagerVotes = Number(await ExecutorSupplierVotingStrategy.methods.getRejectProjectSupplierVotes(fetchedAccounts[0]).call());
+                    console.log("---> rejectManagerVotes:", rejectManagerVotes)
+                    // setProjectRejectVotesAgainst(rejectVotesAgainst);
+
 
                     const projectExecutor = await managerContract.methods.getProjectExecutor(profileId).call();
                     // console.log("===== Project Executor")
@@ -517,6 +525,69 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                 </Table>
                             </TableContainer>
 
+                            {
+                                (projectRejectVotesFor || projectRejectVotesAgainst) ? (
+
+                                    <TableContainer 
+                                        component={Paper} 
+                                        sx={{ 
+                                            overflow: 'hidden',
+                                            borderTopLeftRadius: 25,
+                                            borderTopRightRadius: 25,
+                                            borderBottomLeftRadius: 25,
+                                            borderBottomRightRadius: 25,
+                                            marginBottom: '10px',
+                                            maxWidth: "90%",
+                                            marginLeft: 'auto', // Adjust for centering
+                                            marginRight: 'auto', // Adjust for centering
+                                            display: 'block', // 
+                                        }}
+                                    >
+                                        <Table aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                        Reject Projecting Votes:
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                {/* <MilestonesProgressBar completed={calculatePhaseOneMilestones().progress}/> */}
+                                                <ProgressBarVotes 
+                                                    completed={calculateVotesPercentage(totalSupply, projectRejectVotesFor)}
+                                                    label={"For"}
+                                                    color={"#C70039"}
+                                                />
+                                                <ProgressBarVotes 
+                                                    completed={calculateVotesPercentage(totalSupply, projectRejectVotesAgainst)}
+                                                    label={"Against"}
+                                                    color={"#4caf50"}
+                                                />
+                                            </TableCell>
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                )
+                                :
+                                <div style={infoStyle}>
+                                    <p></p>
+                                </div>
+                            }
+
+{                           (isDataLoaded && checkHat(accounts[0]).isSupplier) && (
+                                <>
+                                    <p style={rejectInfoStyle}>As a Manager, you possess the authority to initiate a project rejection process, resulting in the project's closure and the return of funds to managers</p>
+                                    <div style={milestonesFlexContainerStyle}>
+                                        <button className="regular-button" onClick={() => {handleRejectProjectButtonClick()}}>
+                                            Cast Your Vote
+                                        </button>
+                                    </div>
+                                
+                                </>
+                            )}
+
                             <TableContainer 
                                 component={Paper} 
                                 sx={{ 
@@ -526,6 +597,7 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                     borderBottomLeftRadius: 25,
                                     borderBottomRightRadius: 25,
                                     marginBottom: '10px',
+                                    marginTop: '50px',
                                     maxWidth: "90%",
                                     marginLeft: 'auto', // Adjust for centering
                                     marginRight: 'auto', // Adjust for centering
@@ -549,30 +621,6 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                 </Table>
                             </TableContainer>
 
-                            {
-                                (projectRejectVotesFor || projectRejectVotesAgainst) ? (
-                                    <div style={milestonesFlexContainerStyle}>
-                                        <div style={progressBarVotesForContainerStyle}>
-                                            <p style={infoStyle}>Reject Project Votes</p>
-                                            <ProgressBarVotes 
-                                                completed={calculateVotesPercentage(totalSupply, projectRejectVotesFor)}
-                                                label={"For"}
-                                                color={"#C70039"}
-                                            />
-                                            <ProgressBarVotes 
-                                                completed={calculateVotesPercentage(totalSupply, projectRejectVotesAgainst)}
-                                                label={"Against"}
-                                                color={"#4caf50"}
-                                            />
-                                        </div>
-                                    </div>
-                                )
-                                :
-                                <div style={infoStyle}>
-                                    <p></p>
-                                </div>
-                            }
-
                             { suppliersRejectVotes ? (
                                     <RejectStrategyVoteModal
                                         setSuppliersRejectVotes={setSuppliersRejectVotes}
@@ -586,17 +634,6 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                 </div>
                             }
 
-                            {(isDataLoaded && checkHat(accounts[0]).isSupplier) && (
-                                <>
-                                    <p style={rejectInfoStyle}>As a Supplier Hat wearer, you possess the authority to initiate a project rejection process, resulting in the project's closure and the return of funds to suppliers</p>
-                                    <div style={milestonesFlexContainerStyle}>
-                                        <button className="regular-button" onClick={() => {handleRejectProjectButtonClick()}}>
-                                            Cast Your Vote
-                                        </button>
-                                    </div>
-                                
-                                </>
-                            )}
                             {
                                 (offeredMilestones.length && isDataLoaded) ? (
                                     <>
