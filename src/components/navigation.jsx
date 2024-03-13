@@ -66,8 +66,11 @@ export const Navigation = () => {
   }, []);
 
   const connectWallet = async () => {
-    try {
-      // Network details for Arbitrum One (mainnet)
+    try {  
+
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+  
+      // Then you can proceed with the network switch or any other actions
       const networkData = {
         chainId: '0xA4B1', // The chainId for Arbitrum One is 42161, which is 0xA4B1 in hexadecimal
         chainName: 'Arbitrum One',
@@ -85,14 +88,15 @@ export const Navigation = () => {
         method: 'wallet_addEthereumChain',
         params: [networkData],
       });
-
-
+  
+      // After successful connection and potential network switch, re-initiate Web3 to update any state as necessary
       initWeb3();
-
+  
     } catch (error) {
       console.error("Error connecting to MetaMask or switching to Arbitrum:", error);
     }
-  };  
+  };
+  
 
   return (
     <nav id='menu' className='navbar navbar-default navbar-fixed-top full-width'>

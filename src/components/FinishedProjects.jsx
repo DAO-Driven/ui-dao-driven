@@ -147,24 +147,23 @@ export const FinishedProjects = () => {
                                         flexGrow: 1, 
                                         fontSize: '17px', // Make text larger
                                         paddingBottom: 2, 
-                                        // fontWeight: 'bold',
                                         fontFamily: "FaunaRegular",
-                                        color: "black",
+                                        color: "#695E93"
                                     }}
                                 >
-                                    Finished projects
+                                    Showcase projects
                                 </Typography>
                                 <TableContainer component={Paper} sx={{ borderRadius: '25px', overflow: 'hidden' }}>
                                     <Table sx={{ minWidth: 650, borderRadius: "25px", }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Token</TableCell>
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Token</TableCell>
 
-                                                <TableCell sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>Name</TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}></TableCell>
-                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", }}>State</TableCell>
+                                                <TableCell sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>Name</TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}></TableCell>
+                                                <TableCell align="right" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93" }}>State</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
