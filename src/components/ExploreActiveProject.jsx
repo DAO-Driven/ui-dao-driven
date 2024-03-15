@@ -637,7 +637,7 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                             {
                                 (offeredMilestones.length && isDataLoaded) ? (
                                     <>
-                                        <p style={submitedMilestonesStyle}>Offered Milestones</p>
+                                        {/* <p style={submitedMilestonesStyle}>Offered Milestones</p>
                                         <div style={milestonesFlexContainerStyle}>
                                             {offeredMilestones.map((milestone, i) => (
                                                 <div key={`milestone-${i}`} style={{ minWidth: '200px' }}>
@@ -647,11 +647,146 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                                     <p style={milestoneInfoStyle}>Description: {milestone.description}</p>
                                                 </div>
                                             ))}
-                                        </div>
+                                        </div> */}
+
+
+                                        <TableContainer 
+                                            component={Paper} 
+                                            sx={{ 
+                                                // borderRadius: '25px', 
+                                                overflow: 'hidden',
+                                                borderTopLeftRadius: 25,
+                                                borderTopRightRadius: 25,
+                                                borderBottomLeftRadius: 3,
+                                                borderBottomRightRadius: 3,
+                                                marginBottom: '10px',
+                                                marginTop: '50px',
+                                                maxWidth: "90%",
+                                                marginLeft: 'auto', // Adjust for centering
+                                                marginRight: 'auto', // Adjust for centering
+                                                display: 'block', // 
+                                            }}
+                                        >
+                                            <Table aria-label="simple table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell align="center" sx={{ fontSize: '17px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                            Offered Milestones
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+
+                                                    {offeredMilestones.map((milestone, i) => (
+
+
+                                                        <TableContainer 
+                                                            component={Paper} 
+                                                            sx={{ 
+                                                                // borderRadius: '25px', 
+                                                                overflow: 'hidden',
+                                                                borderTopLeftRadius: 15,
+                                                                borderTopRightRadius: 15,
+                                                                borderBottomLeftRadius: 15,
+                                                                borderBottomRightRadius: 15,
+                                                                marginBottom: '10px',
+                                                                maxWidth: "100%",
+                                                                marginLeft: 'auto', // Adjust for centering
+                                                                marginRight: 'auto', // Adjust for centering
+                                                                display: 'block', // 
+                                                            }}
+                                                        >
+                                                            <Table aria-label="simple table">
+                                                                <TableHead>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                            Milestone {i + 1}
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                </TableHead>
+                                                                <TableBody>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                                            Distributing: {(Number(milestone.amountPercentage) / totalSupply) * 100}%
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                                            Description: .
+                                                                            <a
+                                                                                href={milestone.description}
+                                                                                target="_blank" // This ensures the link opens in a new tab
+                                                                                rel="noopener noreferrer" // Security measure for links that open a new tab
+                                                                                
+                                                                                >
+                                                                                {milestone.description}
+                                                                            </a> 
+                                                                        </TableCell>
+                                                                    </TableRow>
+
+                                                                </TableBody>
+                                                            </Table>
+                                                        </TableContainer>
+                                                    ))}
+                                                </TableCell>
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+
+
+
+
+
+
                                         {(offeredMilestonesVotes && isDataLoaded) && (
-                                            <div style={milestonesFlexContainerStyle}>
-                                                <div style={progressBarVotesForContainerStyle}>
-                                                        <p style={infoStyle}>Offered Milestones Votes</p>
+
+
+                                            // <div style={milestonesFlexContainerStyle}>
+                                            //     <div style={progressBarVotesForContainerStyle}>
+                                            //             <p style={infoStyle}>Offered Milestones Votes</p>
+                                            //             <ProgressBarVotes 
+                                            //                 completed={calculateVotesPercentage(totalSupply, offeredMilestonesVotes.votesFor)}
+                                            //                 label={"Votes For"}
+                                            //                 color={"#4caf50"}
+                                            //             />
+                                            //             <ProgressBarVotes 
+                                            //                 completed={calculateVotesPercentage(totalSupply, offeredMilestonesVotes.votesAgainst)}
+                                            //                 label={"Votes Against"}
+                                            //                 color={"#C70039"}
+                                            //             />
+                                            //     </div>
+                                            // </div>
+
+
+                                            <TableContainer 
+                                            component={Paper} 
+                                            sx={{ 
+                                                // borderRadius: '25px', 
+                                                overflow: 'hidden',
+                                                borderTopLeftRadius: 3,
+                                                borderTopRightRadius: 3,
+                                                borderBottomLeftRadius: 25,
+                                                borderBottomRightRadius: 25,
+                                                marginBottom: '10px',
+                                                maxWidth: "90%",
+                                                marginLeft: 'auto', // Adjust for centering
+                                                marginRight: 'auto', // Adjust for centering
+                                                display: 'block', // 
+                                            }}
+                                            >
+                                                <Table aria-label="simple table">
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                Milestones Defining Votes
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+
+                                                        
                                                         <ProgressBarVotes 
                                                             completed={calculateVotesPercentage(totalSupply, offeredMilestonesVotes.votesFor)}
                                                             label={"Votes For"}
@@ -662,8 +797,12 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                                                             label={"Votes Against"}
                                                             color={"#C70039"}
                                                         />
-                                                </div>
-                                            </div>
+
+                                                    </TableCell>
+
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
                                         )}
                                     </>
                                 )

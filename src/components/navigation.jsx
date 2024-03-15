@@ -70,17 +70,16 @@ export const Navigation = () => {
 
       await window.ethereum.request({ method: 'eth_requestAccounts' });
   
-      // Then you can proceed with the network switch or any other actions
       const networkData = {
-        chainId: '0xA4B1', // The chainId for Arbitrum One is 42161, which is 0xA4B1 in hexadecimal
+        chainId: '0xA4B1',
         chainName: 'Arbitrum One',
         nativeCurrency: {
           name: 'Ether',
-          symbol: 'ETH', // Symbol of the native currency
+          symbol: 'ETH',
           decimals: 18,
         },
-        rpcUrls: ['https://arb1.arbitrum.io/rpc'], // RPC URL for Arbitrum One
-        blockExplorerUrls: ['https://arbiscan.io/'], // Block explorer URL
+        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+        blockExplorerUrls: ['https://arbiscan.io/'],
       };
   
       // Request to switch to Arbitrum network
@@ -89,7 +88,6 @@ export const Navigation = () => {
         params: [networkData],
       });
   
-      // After successful connection and potential network switch, re-initiate Web3 to update any state as necessary
       initWeb3();
   
     } catch (error) {
