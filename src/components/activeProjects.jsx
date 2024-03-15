@@ -14,12 +14,8 @@ import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
 const {managerContractAddress} = require('../contracts/contractsAddresses.json');
 
 
@@ -39,7 +35,6 @@ export const ActiveProjects = () => {
 
                 const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
                 try {
-
 
                     const profileIds = await managerContract.methods.getProfiles().call();
                     const activeProjects = [];
@@ -171,15 +166,6 @@ export const ActiveProjects = () => {
     );    
 };
 
-
-const loadingBarContainerStyle = {
-    marginTop: "100px",
-    width: '100%',  // Adjust as needed
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '20px 0' // Gives space around the progress bar
-};
 
 const contentStyle = {
     fontSize: '21px',

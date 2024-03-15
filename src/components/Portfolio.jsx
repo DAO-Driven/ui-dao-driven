@@ -12,114 +12,110 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+// Define styles
+const exploreStyle = { 
+  fontSize: '21px',
+  backgroundColor: '#FFFFFF',
+  color: "#8155BA",
+  border: 'none',
+  cursor: 'pointer',
+  minWidth: '150px',
+  paddingBottom: '10px',
+};
+
+const contentStyle = {
+  marginTop: '30px',  
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center', 
+};
 
 export const Portfolio_ = () => {
-  const isMobile = window.innerWidth <= 768;
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeSection, setActiveSection] = useState('');
 
   const renderContent = () => {
-    if (activeIndex === null) {
-      return (
-        <div id='portfolio' className='text-center'>
-          <div className='container'>
-            <div className='section-title'>
-              <h2 style={exploreStyle}>EXPLORE OUR SERVICES</h2>
+    switch (activeSection) {
+      case 'awaiting':
+        return <NewProjectTable />;
+      case 'active':
+        return <ActiveProjects />;
+      case 'showcase':
+        return <FinishedProjects />;
+      default:
+        return (
+          <div id='portfolio' className='text-center'>
+            <div className='container'>
+              <div className='section-title'>
+                <h2 style={exploreStyle}>EXPLORE OUR SERVICES</h2>
+              </div>
             </div>
           </div>
-        </div>
-      )
-    } else if (activeIndex === 0) {
-      return <NewProjectTable />;
-    } else if (activeIndex === 1) {
-      return <ActiveProjects />;
-    } else if (activeIndex === 2) {
-      return <FinishedProjects />;
+        );
     }
-  };
-
-  const handleBreadcrumbClick = (index) => {
-    // console.info(`You clicked breadcrumb at index ${index}.`);
-    // Logic to handle breadcrumb click
-    setActiveIndex(index);
   };
 
   useEffect(() => {
-    setActiveIndex(0);
-
-    if (window.ethereum) {
-      window.ethereum.on('chainChanged', async () => {
-        window.location.reload();
-      });
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '') || 'awaiting';
+      setActiveSection(hash);
+    };
+  
+    if (!window.location.hash || !['#awaiting', '#active', '#showcase'].includes(window.location.hash)) {
+      window.location.hash = 'awaiting'; // Set default hash
+    } else {
+      handleHashChange(); // Call to set the state based on the current hash if already present
     }
-    else {
-      alert("Please install MetaMask!");
-    }
-
+  
+    window.addEventListener('hashchange', handleHashChange);
+  
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+  
 
   return (
     <div id='portfolio' className='text-center'>
       <div className='container'>
-        <div className='section-title'>
-
-          {/* <h2 style={h2Style}>Web3 Cowdfunding atop Allo-V2</h2> */}
-          {/* <h2 style={h3InfoStyle}>The project was made for the Allo V2 on Arbitrum Hackathon, organized by BuidlBox</h2> */}
-          {/* <h2 style={h3InfoStyleColored}>Disclamer: </h2> */}
-          {/* <h2 style={h3InfoStyle}>The project operates solely on the Goerli network</h2> */}
-          {/* <h2 style={h3InfoBottomStyle}>Only the native token is permitted</h2> */}
-          {/* <h2 style={h3InfoBottomStyle}>It is recommended to maintain a balance greater than 1.5 ETH</h2> */}
-        </div>
-
         <div className='row'>
           <div className='col-md-12' style={contentStyle}>
-            <TableContainer 
-                component={Paper} 
-                sx={{ 
-                    // borderRadius: '25px', 
-                    overflow: 'hidden',
-                    borderTopLeftRadius: 25,
-                    borderTopRightRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    borderBottomRightRadius: 25,
-                    // marginBottom: '50px',
-                }}
-            >
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>menu</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow align="center">
-                          <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}
-                          >
-                              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Breadcrumbs aria-label="breadcrumb">
-                                  {['AWAITIG', 'ACTIVE', 'SHOWCASE'].map((text, index) => (
-                                    <Link
-                                      key={text}
-                                      underline="hover"
-                                      color={activeIndex === index ? "text.primary" : "inherit"}
-                                      onClick={() => handleBreadcrumbClick(index)}
-                                      sx={{
-                                        cursor: 'pointer',
-                                        fontSize: activeIndex === index ? '17px' : '15px',
-                                        fontWeight: activeIndex === index ? 'bold' : 'normal',
-                                        fontFamily: "FaunaRegular",
-                                        backgroundColor: '#FFFFFF',
-                                        color: "#693D8F"
-                                      }}
-                                    >
-                                      {text}
-                                    </Link>
-                                  ))}
-                                </Breadcrumbs>
-                              </div>
-                          </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+            <TableContainer component={Paper} sx={{ borderTopLeftRadius: 25, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#695E93"}}>Menu</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow align="center">
+                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular" }}>
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Breadcrumbs aria-label="breadcrumb">
+                          {['AWAITIG', 'ACTIVE', 'SHOWCASE'].map((text, index) => {
+                            const hash = ['awaiting', 'active', 'showcase'][index];
+                            return (
+                              <Link
+                                key={text}
+                                underline="hover"
+                                color={activeSection === hash ? "text.primary" : "inherit"}
+                                onClick={() => (window.location.hash = hash)}
+                                sx={{
+                                  cursor: 'pointer',
+                                  fontSize: activeSection === hash ? '17px' : '15px',
+                                  fontWeight: activeSection === hash ? 'bold' : 'normal',
+                                  fontFamily: "FaunaRegular",
+                                  backgroundColor: '#FFFFFF',
+                                  color: "#693D8F"
+                                }}
+                              >
+                                {text}
+                              </Link>
+                            );
+                          })}
+                        </Breadcrumbs>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </TableContainer>
           </div>
         </div>
@@ -129,25 +125,4 @@ export const Portfolio_ = () => {
       </div>
     </div>
   );
-};
-
-const exploreStyle = { 
-  fontSize: '21px',
-  marginTop: '21px',  
-  marginBottom: '21px',
-  backgroundColor: '#FFFFFF',
-  color: "#8155BA",
-  border: 'none',
-  // borderRadius: "15px",
-  cursor: 'pointer',
-  minWidth: '150px',
-  marginTop: '0px',
-  paddingBottom: '10px',
-};
-
-const contentStyle = {
-  marginTop: '30px',  
-  display: 'flex', // Added for flexbox layout
-  justifyContent: 'center', // Center content horizontally
-  alignItems: 'center', 
 };
