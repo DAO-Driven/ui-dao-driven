@@ -215,6 +215,10 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
     };
 
     useEffect(() => {        
+
+        console.log(":::::::::: EXPLORE ACTIVE PROJECT PROFILE ID:", profileId)
+
+
         const initWeb3 = async () => {
             if (window.ethereum) {
 
@@ -306,7 +310,7 @@ export const ExploreActiveProject = ({ profileId, setActiveProject }) => {
                     // console.log("====== PROJECT DATA")
                     // console.log(projectData)
                     setprojectInfo(projectData);
-
+                    
 
                     if (milestones.length){
 

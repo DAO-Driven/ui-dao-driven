@@ -505,89 +505,89 @@ export const ExploreFinishedProject = ({ profileId, setActiveProject }) => {
                                     
                                     <>
 
-                                    <TableContainer 
-                                        component={Paper} 
-                                        sx={{ 
-                                            // borderRadius: '25px', 
-                                            overflow: 'hidden',
-                                            borderTopLeftRadius: 25,
-                                            borderTopRightRadius: 25,
-                                            borderBottomLeftRadius: 3,
-                                            borderBottomRightRadius: 3,
-                                            marginBottom: '10px',
-                                            marginTop: '50px',
-                                            maxWidth: "90%",
-                                            marginLeft: 'auto', // Adjust for centering
-                                            marginRight: 'auto', // Adjust for centering
-                                            display: 'block', // 
-                                        }}
-                                    >
-                                        <Table aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
-                                                        Defined Milestones
-                                                    </TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                            <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                        <TableContainer 
+                                            component={Paper} 
+                                            sx={{ 
+                                                // borderRadius: '25px', 
+                                                overflow: 'hidden',
+                                                borderTopLeftRadius: 25,
+                                                borderTopRightRadius: 25,
+                                                borderBottomLeftRadius: 3,
+                                                borderBottomRightRadius: 3,
+                                                marginBottom: '10px',
+                                                marginTop: '50px',
+                                                maxWidth: "90%",
+                                                marginLeft: 'auto', // Adjust for centering
+                                                marginRight: 'auto', // Adjust for centering
+                                                display: 'block', // 
+                                            }}
+                                        >
+                                            <Table aria-label="simple table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                            Defined Milestones
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                <TableCell align="center" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
 
-                                                {offeredMilestones.map((milestone, i) => (
+                                                    {offeredMilestones.map((milestone, i) => (
 
 
-                                                    <TableContainer 
-                                                        component={Paper} 
-                                                        sx={{ 
-                                                            // borderRadius: '25px', 
-                                                            overflow: 'hidden',
-                                                            borderTopLeftRadius: 15,
-                                                            borderTopRightRadius: 15,
-                                                            borderBottomLeftRadius: 15,
-                                                            borderBottomRightRadius: 15,
-                                                            marginBottom: '10px',
-                                                            maxWidth: "100%",
-                                                            marginLeft: 'auto', // Adjust for centering
-                                                            marginRight: 'auto', // Adjust for centering
-                                                            display: 'block', // 
-                                                        }}
-                                                    >
-                                                        <Table aria-label="simple table">
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
-                                                                        Milestone {i + 1}
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            </TableHead>
-                                                            <TableBody>
-                                                                <TableRow>
-                                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
-                                                                        Distributing: {(Number(milestone.amountPercentage) / totalSupply) * 100}%
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                                <TableRow>
-                                                                    <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
-                                                                        Description: .
-                                                                        <a
-                                                                            href={milestone.description}
-                                                                            target="_blank" // This ensures the link opens in a new tab
-                                                                            rel="noopener noreferrer" // Security measure for links that open a new tab
-                                                                            
-                                                                            >
-                                                                            {milestone.description}
-                                                                        </a> 
-                                                                    </TableCell>
-                                                                </TableRow>
+                                                        <TableContainer 
+                                                            component={Paper} 
+                                                            sx={{ 
+                                                                // borderRadius: '25px', 
+                                                                overflow: 'hidden',
+                                                                borderTopLeftRadius: 15,
+                                                                borderTopRightRadius: 15,
+                                                                borderBottomLeftRadius: 15,
+                                                                borderBottomRightRadius: 15,
+                                                                marginBottom: '10px',
+                                                                maxWidth: "100%",
+                                                                marginLeft: 'auto', // Adjust for centering
+                                                                marginRight: 'auto', // Adjust for centering
+                                                                display: 'block', // 
+                                                            }}
+                                                        >
+                                                            <Table aria-label="simple table">
+                                                                <TableHead>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "RaxtorRegular", color: "#BEAFC2"}}>
+                                                                            Milestone {i + 1}
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                </TableHead>
+                                                                <TableBody>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                                            Distributing: {(Number(milestone.amountPercentage) / totalSupply) * 100}%
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                    <TableRow>
+                                                                        <TableCell align="left" sx={{ fontSize: '13px', fontFamily: "FaunaRegular", color: "#695E93"}}>
+                                                                            Description: .
+                                                                            <a
+                                                                                href={milestone.description}
+                                                                                target="_blank" // This ensures the link opens in a new tab
+                                                                                rel="noopener noreferrer" // Security measure for links that open a new tab
+                                                                                
+                                                                                >
+                                                                                {milestone.description}
+                                                                            </a> 
+                                                                        </TableCell>
+                                                                    </TableRow>
 
-                                                            </TableBody>
-                                                        </Table>
-                                                    </TableContainer>
-                                                ))}
-                                            </TableCell>
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
+                                                                </TableBody>
+                                                            </Table>
+                                                        </TableContainer>
+                                                    ))}
+                                                </TableCell>
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
 
                                         {
                                             (offeredMilestonesVotes && isDataLoaded) ? (

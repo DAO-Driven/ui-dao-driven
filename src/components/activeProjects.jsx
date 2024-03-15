@@ -77,6 +77,7 @@ export const ActiveProjects = () => {
         };
 
         initWeb3().finally(() => {setLoading(false); setOpenBackdrop(false)});
+
     }, [setSelectedProfileId]);
 
     return (
@@ -135,6 +136,7 @@ export const ActiveProjects = () => {
                                                         },
                                                     }}
                                                     onClick={() => setSelectedProfileId(profile.id)}
+
                                                 >
                                                     <TableCell component="th" scope="row" sx={{ fontSize: '15px' }}>
                                                         <Stack direction="row" spacing={2}>
