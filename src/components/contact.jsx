@@ -15,7 +15,7 @@ const Footer = () => {
           <div className='contact-item'>
             <p>
               <span className="center-icon">
-                <a href="https://github.com/alexandr-masl/web3-crowdfunding-on-allo-V2" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/DAO-Driven/dao-driven-core" target="_blank" rel="noopener noreferrer">
                   <img src={github_icon} alt="GitHub Icon" width="52" height="52" />
                 </a>
               </span>
