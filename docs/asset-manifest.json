@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ui-dao-driven/static/css/main.ae679ba8.css",
-    "main.js": "/ui-dao-driven/static/js/main.633d561d.js",
+    "main.js": "/ui-dao-driven/static/js/main.839cf42a.js",
     "static/media/allo-logo.png": "/ui-dao-driven/static/media/allo-logo.2e45f232a479451f637d.png",
     "static/media/ether.jpeg": "/ui-dao-driven/static/media/ether.edee12098ff46718a822.jpeg",
     "static/media/hatsIcon.jpeg": "/ui-dao-driven/static/media/hatsIcon.9fb0406da88f5fe4ed47.jpeg",
@@ -10,10 +10,10 @@
     "static/media/arbitrum.webp": "/ui-dao-driven/static/media/arbitrum.809ce7867e0a7423794f.webp",
     "index.html": "/ui-dao-driven/index.html",
     "main.ae679ba8.css.map": "/ui-dao-driven/static/css/main.ae679ba8.css.map",
-    "main.633d561d.js.map": "/ui-dao-driven/static/js/main.633d561d.js.map"
+    "main.839cf42a.js.map": "/ui-dao-driven/static/js/main.839cf42a.js.map"
   },
   "entrypoints": [
     "static/css/main.ae679ba8.css",
-    "static/js/main.633d561d.js"
+    "static/js/main.839cf42a.js"
   ]
 }

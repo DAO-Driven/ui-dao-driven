@@ -79,7 +79,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     const [accounts, setAccounts] = useState(null);
     const [fundedAmount, setFundetAmount] = useState(null);
     const [isSupplier, setisSupplier] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [revoked, setRevoked] = useState(false);
     const [projecExecutor, setpPojecExecutor] = useState(null);
     const [projectSuppliers, setProjectSuppliers] = useState([]);
@@ -145,7 +145,7 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     };
 
     const handleSendFunds = async () => {
-        setLoading(true);
+        // setLoading(true);
     
         if (amountToSend > 0) {
             const web3Instance = new Web3(window.ethereum); // Ensure web3Instance is initialized correctly
@@ -215,46 +215,54 @@ export const ExploreAwaitinProjectModal = ({ setShowModal, profileId }) => {
     
     useEffect(() => {
         const initWeb3 = async () => {
-            if (window.ethereum) {
-                const web3Instance = new Web3(window.ethereum);
-                setWeb3(web3Instance);
+            try {   
+                if (window.ethereum) {
+                    const web3Instance = new Web3(window.ethereum);
+                    setWeb3(web3Instance);
 
-                const fetchedAccounts = await web3Instance.eth.getAccounts();
-                setAccounts(fetchedAccounts);
+                    const fetchedAccounts = await web3Instance.eth.getAccounts();
+                    setAccounts(fetchedAccounts);
 
-                const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
+                    const managerContract = new web3Instance.eth.Contract(ManagerContractABI, managerContractAddress);
 
-                const supply = await managerContract.methods.getProjectSupply(profileId).call();
-                // console.log("====== PROJECT SUPPLY")
-                // console.log(supply)
-                setprojecData(supply);
+                    const supply = await managerContract.methods.getProjectSupply(profileId).call();
+                    // console.log("====== PROJECT SUPPLY")
+                    // console.log(supply)
+                    setprojecData(supply);
 
-                const projectData = await managerContract.methods.getProfile(profileId).call();
-                // console.log("====== PROJECT DATA")
-                // console.log(projectData)
-                setprojectInfo(projectData);
+                    const projectData = await managerContract.methods.getProfile(profileId).call();
+                    // console.log("====== PROJECT DATA")
+                    // console.log(projectData)
+                    setprojectInfo(projectData);
 
-                const progress = calculateProgress(supply, web3Instance);
-                setProjctProgress(progress);
+                    const progress = calculateProgress(supply, web3Instance);
+                    setProjctProgress(progress);
 
-                const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
-                // console.log("===== Project Suppliers")
-                // console.log(projectSuppliers)
-                setProjectSuppliers(projectSuppliers)
+                    const projectSuppliers = await managerContract.methods.getProjectSuppliers(profileId).call();
+                    // console.log("===== Project Suppliers")
+                    // console.log(projectSuppliers)
+                    setProjectSuppliers(projectSuppliers)
 
-                const isSupplier = projectSuppliers.find(supplier=> supplier == fetchedAccounts[0]);
-                // console.log("===== IS Supplier:", isSupplier);
+                    const isSupplier = projectSuppliers.find(supplier=> supplier == fetchedAccounts[0]);
+                    // console.log("===== IS Supplier:", isSupplier);
 
-                setisSupplier(isSupplier)
+                    setisSupplier(isSupplier)
 
-                const projectExecutor = await managerContract.methods.getProjectExecutor(profileId).call();
-                // console.log("===== Project Executor")
-                // console.log(projectExecutor)
-                setpPojecExecutor(projectExecutor);
+                    const projectExecutor = await managerContract.methods.getProjectExecutor(profileId).call();
+                    // console.log("===== Project Executor")
+                    // console.log(projectExecutor)
+                    setpPojecExecutor(projectExecutor);
 
-            } else {
-                console.log("Please install MetaMask!");
+                } else {
+                    console.log("Please install MetaMask!");
+                }
             }
+            catch(err){
+                console.log("UseEffect Error");
+                console.log(err);
+            }
+
+            setLoading(false);
         };
 
         initWeb3();
