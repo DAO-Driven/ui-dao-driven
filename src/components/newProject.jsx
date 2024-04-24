@@ -19,7 +19,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
 const {managerContractAddress} = require('../contracts/contractsAddresses.json')
 
 function CircularProgressWithLabel(props) {
@@ -80,7 +79,7 @@ export const NewProjectTable = () => {
     const [selectedProfileId, setSelectedProfileId] = useState(null);
     const [isRecipient, setIsRecipient] = useState(null);
     const [isManager, setIsManager] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [openBackdrop, setOpenBackdrop] = React.useState(true);
 
     const openModal = () => {
@@ -137,9 +136,10 @@ export const NewProjectTable = () => {
 
     useEffect(() => {
 
-        setLoading(true);
+        // setLoading(true);
 
         const initWeb3 = async () => {
+
             if (window.ethereum) {
 
                 const web3Instance = new Web3(window.ethereum);
@@ -175,7 +175,7 @@ export const NewProjectTable = () => {
                             const projectExecutor = await managerContract.methods.getProjectExecutor(id).call();
 
                             if (projectSuppliers.length && projectSuppliers.find(address=> address == address)) {
-                                console.log("========== MANAGER DETECTED:", address, "SUPPL:", projectSuppliers.length)
+                                // console.log("========== MANAGER DETECTED:", address, "SUPPL:", projectSuppliers.length)
                                 setIsManager(true);
                             }
                             if (address === projectExecutor) {
@@ -200,12 +200,18 @@ export const NewProjectTable = () => {
                     console.error("Error fetching profiles:");
                     console.log(error)
                 }
+                finally {
+                    setLoading(false); // Set loading to false regardless of success or failure
+                    setOpenBackdrop(false);
+                }
             } else {
                 console.log("Please install MetaMask!");
             }
         };
     
-        initWeb3().finally(() => {setLoading(false); setOpenBackdrop(false)});
+        initWeb3()
+        // .finally(() => {setLoading(false); setOpenBackdrop(false)});
+
     }, [showExploreAwaitinProjectModal, showModal]);
 
     return (
@@ -251,7 +257,6 @@ export const NewProjectTable = () => {
                                 flexGrow: 1, 
                                 fontSize: '17px', // Make text larger
                                 paddingBottom: 2, 
-                                // fontWeight: 'bold',
                                 fontFamily: "FaunaRegular",
                                 color: "#695E93"
                             }}
@@ -318,7 +323,7 @@ export const NewProjectTable = () => {
                 )}
 
                 {showModal && (
-                    <Modal setShowModal={setShowModal} />
+                    <Modal setShowModal={setShowModal} setLoadingMain={setLoading} />
                 )}
                 {showExploreAwaitinProjectModal && (
                     <ExploreAwaitinProjectModal 
@@ -329,15 +334,6 @@ export const NewProjectTable = () => {
             </div>
         </>
     );
-};
-
-const loadingBarContainerStyle = {
-    marginTop: "100px",
-    width: '100%',  // Adjust as needed
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '20px 0' // Gives space around the progress bar
 };
 
 const contentStyle = {

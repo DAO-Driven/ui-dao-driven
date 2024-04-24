@@ -76,7 +76,9 @@ export const Portfolio_ = () => {
     <div id='portfolio' className='text-center'>
       <div className='container'>
         <div className='row'>
+
           <div className='col-md-12' style={contentStyle}>
+
             <TableContainer component={Paper} sx={{ borderTopLeftRadius: 25, borderTopRightRadius: 25, borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

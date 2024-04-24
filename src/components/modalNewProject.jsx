@@ -158,10 +158,6 @@ export const Modal = ({ setShowModal }) => {
         padding: "10px",
         color: "#8155BA",
     };
-    const pStyle = {
-        fontSize: '17px',
-        color: "#8155BA",
-    };
 
     const inputStyle = {
         width: '100%', 
