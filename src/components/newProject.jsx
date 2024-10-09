@@ -135,9 +135,6 @@ export const NewProjectTable = () => {
 
 
     useEffect(() => {
-
-        // setLoading(true);
-
         const initWeb3 = async () => {
 
             if (window.ethereum) {
@@ -209,9 +206,8 @@ export const NewProjectTable = () => {
             }
         };
     
-        initWeb3()
-        // .finally(() => {setLoading(false); setOpenBackdrop(false)});
-
+        initWeb3();
+        
     }, [showExploreAwaitinProjectModal, showModal]);
 
     return (

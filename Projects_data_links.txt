@@ -1,5 +1,3 @@
-
-
 ------------------------------------
 Flying Pizza V1
 
@@ -12,9 +10,6 @@ Description: ipfs://bafybeia5xuewwdwza5mrjovsxgazfwav4lck5arwt3fdx5g6l2zoaqappq/
 Sumbmission: https://ipfs.io/ipfs/QmdwzdK5p1v5nEuSk7hDGv7D7et1jCZ3tzQDJcwq8ZbiDb
 
 ------------------------------------
-
-
-
 
 
 ------------------------------------
@@ -36,12 +31,6 @@ Description: ipfs://bafybeidj3bzcyweasiyxv4lp46wbbiwdm4e4verl2ncmcsdsluxqbcgajy/
 Sumbmission: ipfs://bafybeicnafjcb2aarkjr6hbth7aihpxhzrn7yhypjmhcd2wkkgbbig5z7q/
 
 ------------------------------------
-
-
-
-
-
-
 
 ------------------------------------
 Flying Burger V1
